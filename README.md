@@ -1,7 +1,7 @@
 # Agence_voyage 🧳
 ---
 Pré-requis 🔧
-- Comprendre le (deep learning)[https://fr.wikipedia.org/wiki/Apprentissage_profond]
+- Comprendre le [javascript](https://profdoc.iddocs.fr/IMG/pdf/billiejoe_javascript_fiches.pdf)
 ---
 Set-up ton environnemnt 🛠️
 - Install (nvm)[https://github.com/coreybutler/nvm-windows/releases] pour installer nodejs
