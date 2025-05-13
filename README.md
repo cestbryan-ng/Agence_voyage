@@ -4,7 +4,7 @@ Pré-requis 🔧
 - Comprendre le [javascript](https://profdoc.iddocs.fr/IMG/pdf/billiejoe_javascript_fiches.pdf)
 ---
 Set-up ton environnemnt 🛠️
-- Install [nvm](https://github.com/coreybutler/nvm-windows/releases) pour installer nodejs
+- Install [nvm](https://github.com/coreybutler/nvm-windows/releases) pour installer nodejs (commande : nvm install 18)
 - Install [Android SDK](https://developer.android.com/studio) en passant par Android Studio
 - Install [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 ---
