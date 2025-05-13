@@ -1,15 +1,12 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
-const App = () => {
-  return (
-    <View style={styles.container}>
-      <Image 
-        source = {require('./images/Frame37240.png')} 
-        style = {styles.image}
-      />
-    </View>
-  );
+const App1 = () => {
+    return (
+        <View>
+            
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
@@ -25,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default App1;
