@@ -1,0 +1,36 @@
+const envoieauServeur = async() => {
+    try {
+    const reponse = await fetch('http://172.20.10.2:5454/sum', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({a, b})
+    })
+
+    const resultat = await reponse.json();
+    setsom(resultat.result);
+    } catch (e) {
+    alert("Connectez vous à internet")
+    }
+};
+
+const express = require('express')
+const cors = require('cors')
+const app = express()
+const PORT = 5454
+
+app.use(cors())
+app.use(express.json())
+
+app.get('/test', (req, res) => {
+res.send('Connecté')
+})
+
+app.post('/sum', (req, res) => {
+const {a, b} = req.body
+const result = Number(a) + Number(b)
+res.json({ result })
+})
+
+app.listen(PORT, () => {
+console.log('API active sur localhost:%d', PORT)
+})
