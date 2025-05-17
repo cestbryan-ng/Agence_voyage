@@ -71,6 +71,7 @@ const App1 = () => {
                 </TouchableOpacity>
             </View>
         </View>
+        
     );
     };
 
