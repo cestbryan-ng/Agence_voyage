@@ -5,7 +5,7 @@ const App = () => {
   return (
     <View style={styles.container}>
       <Image 
-        source = {require('./images/Frame37240.png')} 
+        source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/Frame37240.png')} 
         style = {styles.image}
       />
     </View>
