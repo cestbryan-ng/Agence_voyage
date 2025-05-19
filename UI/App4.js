@@ -2,8 +2,16 @@ import { React, useState } from 'react';
 import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity } from 'react-native';
 
 const App4 = () => {
-    function envoieauServeur() {
+    function verification() {
+        if (numero1 == '' || numero2 == '' || numero3 == '' || numero4 == '') {
+            alert('Entrer le code.')
+            return;
+        }
         alert("Bientôt disponible");
+    }
+
+    function retour() {
+        alert('Bientôt disponible');
     }
 
     const [numero, setnumero] = useState(123456789);
@@ -11,11 +19,15 @@ const App4 = () => {
     const [focus2, setfocus2] = useState(false);
     const [focus3, setfocus3] = useState(false);
     const [focus4, setfocus4] = useState(false);
+    const [numero1, setnumero1] = useState('');
+    const [numero2, setnumero2] = useState('');
+    const [numero3, setnumero3] = useState('');
+    const [numero4, setnumero4] = useState('');
 
     return (
         <View style = {styles.container}>
             <View style = {styles.container1}>
-                <TouchableOpacity style = {{color: '#ffffff', marginLeft: 20}} onPress = {(envoieauServeur)}>
+                <TouchableOpacity style = {{color: '#ffffff', marginLeft: 20}} onPress = {(retour)}>
                     <Image
                         source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/Expand_left_light.png')}
                         style = {styles.image_retour}
@@ -40,28 +52,36 @@ const App4 = () => {
                     style = {focus1 ? styles.textinputfocus : styles.textinput}
                     onFocus = {() => setfocus1(true)}
                     onBlur = {() => setfocus1(false)}
+                    value = {numero1}
+                    onChangeText = {setnumero1}
                 />
                 <TextInput
                     keyboardType = "numeric"
                     style = {focus2 ? styles.textinputfocus : styles.textinput}
                     onFocus = {() => setfocus2(true)}
                     onBlur = {() => setfocus2(false)}
+                    value = {numero2}
+                    onChangeText = {setnumero1}
                 />
                 <TextInput
                     keyboardType = "numeric"
                     style = {focus3 ? styles.textinputfocus : styles.textinput}
                     onFocus = {() => setfocus3(true)}
                     onBlur = {() => setfocus3(false)}
+                    value = {numero3}
+                    onChangeText = {setnumero3}
                 />
                 <TextInput
                     keyboardType = "numeric"
                     style = {focus4 ? styles.textinputfocus : styles.textinput}
                     onFocus = {() => setfocus4(true)}
                     onBlur = {() => setfocus4(false)}
+                    value = {numero4}
+                    onChangeText = {setnumero4}
                 />
             </View>
             <View style = {styles.container5}>
-                <TouchableOpacity style = {styles.button} onPress = {(envoieauServeur)}>
+                <TouchableOpacity style = {styles.button} onPress = {(verification)}>
                     <Text style = {{color : '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight : 'bold'}}>Vérifier</Text>
                 </TouchableOpacity>
             </View>

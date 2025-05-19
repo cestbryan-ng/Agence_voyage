@@ -6,6 +6,10 @@ const App2 = () => {
         alert("Bientôt disponible");
     }
 
+    function enregistrer() {
+
+    }
+
     function voirMdp() {
         global [visible_mdp, setvisible_mdp];
         if (visible_mdp) setvisible_mdp(false);
@@ -23,6 +27,9 @@ const App2 = () => {
     const [focus3, setfocus3] = useState(false);
     const [visible_mdp, setvisible_mdp] = useState(true);
     const [visible_mdp2, setvisible_mdp2] = useState(true);
+    const [numero, setnumero] = useState('');
+    const [mdp, setmdp] = useState('');
+    const [mdp2, setmdp2] = useState('');
 
     return  (
         <View style = {styles.container}>
@@ -85,90 +92,90 @@ const App2 = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#ffffff',
+    },
   
-  container1: {
-    flex : 0,
-    backgroundColor: '#ffffff',
-    marginTop: 50,
+    container1: {
+        flex : 0,
+        backgroundColor: '#ffffff',
+        marginTop: 50,
   },
 
-  container2:{
-    flex: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#ffffff',
-    marginTop : 50,
-  },
+    container2:{
+        flex: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ffffff',
+        marginTop : 50,
+    },
 
-  container3 : {
-    flex: 0,
-    width : 350,
-    height : 400,
-    marginTop : 20,
-    alignSelf : 'center',
-    backgroundColor: '#ffffff',
-  },
+    container3 : {
+        flex: 0,
+        width : 350,
+        height : 400,
+        marginTop : 20,
+        alignSelf : 'center',
+        backgroundColor: '#ffffff',
+    },
 
-  textinput : {
-    color : 'black',
-    borderColor : '#D1D1D1',
-    borderWidth : 1,
-    borderRadius : 15,
-    paddingLeft: 10,
-    paddingRight: 35,
-    fontSize: 15,
-    fontFamily : "cambria",
-  },
+    textinput : {
+        color : 'black',
+        borderColor : '#D1D1D1',
+        borderWidth : 1,
+        borderRadius : 15,
+        paddingLeft: 10,
+        paddingRight: 35,
+        fontSize: 15,
+        fontFamily : "cambria",
+    },
 
-  textinputfocus : {
-    borderColor : '#009dd1d6',
-    borderWidth : 1,
-    borderRadius : 15,
-    paddingLeft: 10,
-    paddingRight: 35,
-    fontSize: 15,
-    fontFamily : "cambria",
-  },
+    textinputfocus : {
+        borderColor : '#009dd1d6',
+        borderWidth : 1,
+        borderRadius : 15,
+        paddingLeft: 10,
+        paddingRight: 35,
+        fontSize: 15,
+        fontFamily : "cambria",
+    },
 
-  texte: {
-    color : '#2A2A2A',
-    fontFamily : 'Inter',
-    fontSize : 18,
-    fontWeight : 'bold',
-    marginTop: -27,
-    alignSelf: 'center',
-  },
+    texte: {
+        color : '#2A2A2A',
+        fontFamily : 'Inter',
+        fontSize : 18,
+        fontWeight : 'bold',
+        marginTop: -27,
+        alignSelf: 'center',
+    },
 
-  texte1: {
-    color : '#2A2A2A',
-    fontFamily : 'Inter',
-    fontSize : 14,
-    fontWeight : 'bold',
-    paddingBottom: 10,
-    paddingTop: 15,
-  },
+    texte1: {
+        color : '#2A2A2A',
+        fontFamily : 'Inter',
+        fontSize : 14,
+        fontWeight : 'bold',
+        paddingBottom: 10,
+        paddingTop: 15,
+    },
 
-  button : {
-    backgroundColor : '#F75D37',
-    height : 45,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 15,
-  },
+    button : {
+        backgroundColor : '#F75D37',
+        height : 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15,
+    },
 
-  image: {
-    width : 180,
-    height : 180,
-  },
+    image: {
+        width : 180,
+        height : 180,
+    },
 
-  image_retour: {
-    width : 24,
-    height : 24,
-  },
+    image_retour: {
+        width : 24,
+        height : 24,
+    },
 });
 
 export default App2;

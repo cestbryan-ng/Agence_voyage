@@ -2,11 +2,20 @@ import { React, useState } from 'react';
 import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity } from 'react-native';
 
 const App3  = () => {
+    function envoie() {
+        if (numero == '') {
+            alert('Entrer un numéro.')
+            return;
+        }
+        alert('Bientôt disponible');
+    }
+
     function envoieauServeur() {
         alert("Bientôt disponible");
     }
 
     const [focus, setfocus] = useState(false);
+    const [numero, setnumero] = useState('');
 
     return (
         <View style = {styles.container}>
@@ -36,8 +45,10 @@ const App3  = () => {
                     placeholder = 'Votre numéro de téléphone...'
                     onFocus = {() => setfocus(true)}
                     onBlur = {() => setfocus(false)}
+                    value = {numero}
+                    onChangeText = {setnumero}
                 />
-                <TouchableOpacity style = {styles.button} onPress = {(envoieauServeur)}>
+                <TouchableOpacity style = {styles.button} onPress = {(envoie)}>
                     <Text style = {{color : '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight : 'bold'}}>Envoyer le code</Text>
                 </TouchableOpacity>
             </View>

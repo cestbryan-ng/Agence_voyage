@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 const App1 = () => {
     function connexion() {
@@ -73,7 +74,7 @@ const App1 = () => {
         </View>
         
     );
-    };
+};
 
 const styles = StyleSheet.create({
     container: {
