@@ -49,7 +49,7 @@ const App2 = ({ navigation }) => {
             <View style = {styles.container1}>
                 <TouchableOpacity style = {{color: '#ffffff', marginLeft: 20}} onPress = {(retour)}>
                     <Image
-                        source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/Expand_left_light.png')}
+                        source = {require('./images/Expand_left_light.png')}
                         style = {styles.image_retour}
                     />
                 </TouchableOpacity>
@@ -57,7 +57,7 @@ const App2 = ({ navigation }) => {
             </View>
             <View style = {styles.container2}>
                 <Image
-                    source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/Logoorange.png')}
+                    source = {require('./images/Logoorange.png')}
                     style = {styles.image}
                 />
             </View>
@@ -81,7 +81,7 @@ const App2 = ({ navigation }) => {
                 />
                 <TouchableOpacity style = {{marginTop: -30, alignSelf: 'flex-end', marginRight: 10, paddingBottom: 20,}} onPress = {(voirMdp)}>
                     <Image
-                        source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/vue.png')}
+                        source = {require('./images/vue.png')}
                     />
                 </TouchableOpacity>                
                 <Text style = {styles.texte1}>Confirmer votre mot de passe</Text>
@@ -96,7 +96,7 @@ const App2 = ({ navigation }) => {
                 />
                 <TouchableOpacity style = {{marginTop: -30, alignSelf: 'flex-end', marginRight: 10, paddingBottom: 40,}} onPress = {(voirMdp2)}>
                     <Image
-                        source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/vue.png')}
+                        source = {require('./images/vue.png')}
                     />
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.button} onPress = {(enregistrer)}>

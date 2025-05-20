@@ -49,7 +49,7 @@ const App5 = ({ navigation }) => {
             <View style = {styles.container1}>
                 <TouchableOpacity style = {{color: '#ffffff', marginLeft: 20}} onPress = {(retour)}>
                     <Image
-                        source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/Expand_left_light.png')}
+                        source = {require('./images/Expand_left_light.png')}
                         style = {styles.image_retour}
                     />
                 </TouchableOpacity>
@@ -57,7 +57,7 @@ const App5 = ({ navigation }) => {
             </View>
             <View style = {styles.container2}>
                 <Image
-                    source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/screen1.png')}
+                    source = {require('./images/screen1.png')}
                     style = {styles.image}
                 />
             </View>
@@ -75,7 +75,7 @@ const App5 = ({ navigation }) => {
                 />
                 <TouchableOpacity style = {{marginTop: -30, alignSelf: 'flex-end', marginRight: 10, paddingBottom: 20,}} onPress = {(voirMdp)}>
                     <Image
-                        source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/vue.png')}
+                        source = {require('./images/vue.png')}
                     />
                 </TouchableOpacity>
                 <Text style = {styles.texte3} >Confirmer votre nouveau mot de passe</Text>
@@ -90,7 +90,7 @@ const App5 = ({ navigation }) => {
                 />
                 <TouchableOpacity style = {{marginTop: -30, alignSelf: 'flex-end', marginRight: 10, paddingBottom: 20,}} onPress = {(voirMdp2)}>
                     <Image
-                        source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/vue.png')}
+                        source = {require('./images/vue.png')}
                     />
                 </TouchableOpacity>
                 <TouchableOpacity  style = {styles.button} onPress = {(soumettre)} >

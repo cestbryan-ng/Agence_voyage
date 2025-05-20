@@ -43,7 +43,7 @@ const App1 = ({ navigation }) => {
             </View>
             <View style = {styles.container2}>
                 <Image
-                    source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/Logoorange.png')}
+                    source = {require('./images/Logoorange.png')}
                     style = {styles.image}
                 />
             </View>
@@ -67,7 +67,7 @@ const App1 = ({ navigation }) => {
                     />
                 <TouchableOpacity style = {{marginTop: -30, alignSelf: 'flex-end', marginRight: 10,}} onPress = {(voirMdp)}>
                 <Image
-                    source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/vue.png')}
+                    source = {require('./images/vue.png')}
                 />
                 </TouchableOpacity>
                 <TouchableOpacity style = {{alignSelf : 'flex-end', paddingTop: 25}} onPress = {(mdpoublie)}>

@@ -13,7 +13,7 @@ const App6 = ({ navigation }) => {
     return (
         <View style = {styles.container}>
             <Image
-                source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/congratulations.png')}
+                source = {require('./images/congratulations.png')}
                 style = {styles.image}
             />
             <Text style = {{paddingTop: 50, fontFamily: 'cambria', fontSize: 15, fontWeight: 'bold', color : 'black'}}>Vous allez être redigirer vers la page d'accueil</Text>

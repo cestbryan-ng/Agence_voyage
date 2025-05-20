@@ -14,7 +14,7 @@ const App7 = ({ navigation }) => {
     return (
         <View style = {styles.container}>
             <FastImage
-                source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/7VVL.gif')}
+                source = {require('./images/7VVL.gif')}
                 style = {styles.image}
             />
             <Text style = {{paddingTop: 20, fontFamily: 'cambria', fontSize: 20, fontWeight: 'bold', color : 'black'}}>On y travaille...</Text>

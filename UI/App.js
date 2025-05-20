@@ -13,7 +13,7 @@ const App = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Image 
-                source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/Frame37240.png')} 
+                source = {require('./images/frame.png')} 
                 style = {styles.image}
             />
         </View>

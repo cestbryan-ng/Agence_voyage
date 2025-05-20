@@ -24,7 +24,7 @@ const App3  = ({ navigation }) => {
             <View style = {styles.container1}>
                 <TouchableOpacity style = {{color: '#ffffff', marginLeft: 20}} onPress = {(retour)}>
                     <Image
-                        source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/Expand_left_light.png')}
+                        source = {require('./images/Expand_left_light.png')}
                         style = {styles.image_retour}
                     />
                 </TouchableOpacity>
@@ -32,7 +32,7 @@ const App3  = ({ navigation }) => {
             </View>
             <View style = {styles.container2}>
                 <Image
-                    source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/Forgot_1.png')}
+                    source = {require('./images/Forgot_1.png')}
                     style = {styles.image}
                 />
             </View>
