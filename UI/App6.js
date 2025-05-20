@@ -1,11 +1,11 @@
 import { React, useEffect } from 'react';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Text } from 'react-native';
 
 const App6 = ({ navigation }) => {
     useEffect(() => {
         const temps = setTimeout(() => {
             navigation.navigate('App7'); 
-        }, 2000);
+        }, 4000);
 
         return () => clearTimeout(temps);
     }, []);
@@ -16,6 +16,7 @@ const App6 = ({ navigation }) => {
                 source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/congratulations.png')}
                 style = {styles.image}
             />
+            <Text style = {{paddingTop: 50, fontFamily: 'cambria', fontSize: 15, fontWeight: 'bold', color : 'black'}}>Vous allez être redigirer vers la page d'accueil</Text>
         </View>
     );
 };

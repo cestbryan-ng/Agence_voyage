@@ -7,7 +7,9 @@ const App1 = ({ navigation }) => {
             alert('Entrer votre numéro de téléphone et/ou votre mot de passe.');
             return;
         }
-        alert('bientôt disponible');
+        setnumero('');
+        setmdp('');
+        navigation.navigate('App6');
     }
 
     function mdpoublie() {

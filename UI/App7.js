@@ -1,5 +1,6 @@
 import { React, useEffect } from 'react';
 import { View, StyleSheet, Image , Text } from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 const App7 = ({ navigation }) => {
     useEffect(() => {
@@ -12,11 +13,11 @@ const App7 = ({ navigation }) => {
 
     return (
         <View style = {styles.container}>
-            <Image
+            <FastImage
                 source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/7VVL.gif')}
                 style = {styles.image}
             />
-            <Text style = {{paddingTop: 20, fontFamily: 'cambria', fontSize: 20, fontWeight: 'bold',}}>On y travaille...</Text>
+            <Text style = {{paddingTop: 20, fontFamily: 'cambria', fontSize: 20, fontWeight: 'bold', color : 'black'}}>On y travaille...</Text>
         </View>
     );
 };
@@ -32,6 +33,9 @@ const styles = StyleSheet.create({
     image: {
         height : 178,
         width : 233.77,
+        borderColor: '#ffc600',
+        borderWidth: 5,
+        backgroundColor: '#ffc600',
     },
 });
 
