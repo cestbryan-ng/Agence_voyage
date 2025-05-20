@@ -11,7 +11,7 @@ const App4 = ({ navigation, route }) => {
         setnumero2('');
         setnumero3('');
         setnumero4('');
-        alert("Bientôt disponible");
+        navigation.navigate('App5');
     }
 
     function retour() {
