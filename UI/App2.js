@@ -1,13 +1,26 @@
 import { React, useState } from 'react';
 import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity } from 'react-native';
 
-const App2 = () => {
-    function envoieauServeur() {
-        alert("Bientôt disponible");
+const App2 = ({ navigation }) => {
+    function retour() {
+        setnumero('');
+        setmdp('');
+        setmdp2('');
+        navigation.navigate('App1');
     }
 
     function enregistrer() {
+        if (mdp == '' || numero == '' || mdp2 == '') {
+            alert('Entrer votre numéro et/ou votre mot de passe');
+            return;
+        }
 
+        if (mdp != mdp2) {
+            alert('Votre mot de passe n\'est pas le même, veuillez réesayer.');
+            return;
+        }
+
+        alert('Bientôt disponible');
     }
 
     function voirMdp() {
@@ -34,7 +47,7 @@ const App2 = () => {
     return  (
         <View style = {styles.container}>
             <View style = {styles.container1}>
-                <TouchableOpacity style = {{color: '#ffffff', marginLeft: 20}}>
+                <TouchableOpacity style = {{color: '#ffffff', marginLeft: 20}} onPress = {(retour)}>
                     <Image
                         source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/Expand_left_light.png')}
                         style = {styles.image_retour}
@@ -55,12 +68,16 @@ const App2 = () => {
                     placeholder = 'Votre numéro de téléphone...'
                     onFocus = {() => setfocus1(true)}
                     onBlur = {() => setfocus1(false)}
+                    value = {numero}
+                    onChangeText = {setnumero}
                 />
                 <Text style = {styles.texte1}>Entrer votre mot de passe</Text>
                 <TextInput style = {focus2 ? styles.textinputfocus : styles.textinput} secureTextEntry = {visible_mdp}
                     placeholder = 'Votre mot de passe...'
                     onFocus = {() => setfocus2(true)}
                     onBlur = {() => setfocus2(false)}
+                    value = {mdp}
+                    onChangeText = {setmdp}
                 />
                 <TouchableOpacity style = {{marginTop: -30, alignSelf: 'flex-end', marginRight: 10, paddingBottom: 20,}} onPress = {(voirMdp)}>
                     <Image
@@ -74,16 +91,18 @@ const App2 = () => {
                     placeholder = 'Votre mot de passe...'
                     onFocus = {() => setfocus3(true)}
                     onBlur = {() => setfocus3(false)}
+                    value = {mdp2}
+                    onChangeText = {setmdp2}
                 />
                 <TouchableOpacity style = {{marginTop: -30, alignSelf: 'flex-end', marginRight: 10, paddingBottom: 40,}} onPress = {(voirMdp2)}>
                     <Image
                         source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/vue.png')}
                     />
                 </TouchableOpacity>
-                <TouchableOpacity style = {styles.button} onPress = {(envoieauServeur)}>
+                <TouchableOpacity style = {styles.button} onPress = {(enregistrer)}>
                     <Text style = {{color : '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight : 'bold'}}>Enregistrer</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress = {(envoieauServeur)}>
+                <TouchableOpacity onPress = {(retour)}>
                     <Text style = {{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#F75D37', fontWeight : 'bold'}}>Vous avez déjà un compte ? Se connecter</Text>
                 </TouchableOpacity>
           </View>

@@ -1,18 +1,25 @@
 import { React, useState } from 'react';
 import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
-const App1 = () => {
+const App1 = ({ navigation }) => {
     function connexion() {
         if ((numero == '') || (mdp == '')) {
             alert('Entrer votre numéro de téléphone et/ou votre mot de passe.');
             return;
         }
-        alert('Bientôt disponible');
+        alert('bientôt disponible');
     }
 
-    function envoieauServeur() {
-        alert("Bientôt disponible");
+    function mdpoublie() {
+        setnumero('');
+        setmdp('');
+        navigation.navigate('App3');
+    }
+
+    function enregistrer() {
+        setnumero('');
+        setmdp('');
+        navigation.navigate('App2');
     }
 
     function voirMdp() {
@@ -61,13 +68,13 @@ const App1 = () => {
                     source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/vue.png')}
                 />
                 </TouchableOpacity>
-                <TouchableOpacity style = {{alignSelf : 'flex-end', paddingTop: 25}} onPress = {(envoieauServeur)}>
+                <TouchableOpacity style = {{alignSelf : 'flex-end', paddingTop: 25}} onPress = {(mdpoublie)}>
                     <Text style = {{color : '#F75D37', paddingBottom: 5, fontFamily: "inter", fontSize: 13}}>Mot de passe oublié ?</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.button} onPress = {(connexion)}>
                     <Text style = {{color : '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight : 'bold'}}>Se connecter</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress = {(envoieauServeur)}>
+                <TouchableOpacity onPress = {(enregistrer)}>
                     <Text style = {{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#F75D37', fontWeight : 'bold'}}>Pas de compte ? Créez en un</Text>
                 </TouchableOpacity>
             </View>

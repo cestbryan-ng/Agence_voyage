@@ -1,20 +1,28 @@
 import { React, useState } from 'react';
 import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity } from 'react-native';
 
-const App4 = () => {
+const App4 = ({ navigation, route }) => {
     function verification() {
         if (numero1 == '' || numero2 == '' || numero3 == '' || numero4 == '') {
             alert('Entrer le code.')
             return;
         }
+        setnumero1('');
+        setnumero2('');
+        setnumero3('');
+        setnumero4('');
         alert("Bientôt disponible");
     }
 
     function retour() {
-        alert('Bientôt disponible');
+        setnumero1('');
+        setnumero2('');
+        setnumero3('');
+        setnumero4('');
+        navigation.navigate('App3');
     }
 
-    const [numero, setnumero] = useState(123456789);
+    const { numero_envoye } = route.params;
     const [focus1, setfocus1] = useState(false);
     const [focus2, setfocus2] = useState(false);
     const [focus3, setfocus3] = useState(false);
@@ -44,7 +52,7 @@ const App4 = () => {
             <View style = {styles.container3}>
                 <Text style = {styles.texte1}>Mot de passe oublié?</Text>
                 <Text style = {styles.texte2}>Un code de 4 chiffres a été envoyé à</Text>
-                <Text style = {styles.texte3}>{numero}</Text>
+                <Text style = {styles.texte3}>{numero_envoye}</Text>
             </View>
             <View style = {styles.container4}>
                 <TextInput
@@ -54,6 +62,7 @@ const App4 = () => {
                     onBlur = {() => setfocus1(false)}
                     value = {numero1}
                     onChangeText = {setnumero1}
+                    editable = { numero1.length != 1 }
                 />
                 <TextInput
                     keyboardType = "numeric"
@@ -61,7 +70,8 @@ const App4 = () => {
                     onFocus = {() => setfocus2(true)}
                     onBlur = {() => setfocus2(false)}
                     value = {numero2}
-                    onChangeText = {setnumero1}
+                    onChangeText = {setnumero2}
+                    editable = { numero2.length != 1 }
                 />
                 <TextInput
                     keyboardType = "numeric"
@@ -70,6 +80,7 @@ const App4 = () => {
                     onBlur = {() => setfocus3(false)}
                     value = {numero3}
                     onChangeText = {setnumero3}
+                    editable = { numero3.length != 1 }
                 />
                 <TextInput
                     keyboardType = "numeric"
@@ -78,6 +89,7 @@ const App4 = () => {
                     onBlur = {() => setfocus4(false)}
                     value = {numero4}
                     onChangeText = {setnumero4}
+                    editable = { numero4.length != 1 }
                 />
             </View>
             <View style = {styles.container5}>

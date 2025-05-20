@@ -1,17 +1,19 @@
 import { React, useState } from 'react';
 import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity } from 'react-native';
 
-const App3  = () => {
+const App3  = ({ navigation }) => {
     function envoie() {
         if (numero == '') {
             alert('Entrer un numéro.')
             return;
         }
-        alert('Bientôt disponible');
+        navigation.navigate('App4', {numero_envoye : numero});
+        setnumero('');
     }
 
-    function envoieauServeur() {
-        alert("Bientôt disponible");
+    function retour() {
+        setnumero('');
+        navigation.navigate('App1');
     }
 
     const [focus, setfocus] = useState(false);
@@ -20,7 +22,7 @@ const App3  = () => {
     return (
         <View style = {styles.container}>
             <View style = {styles.container1}>
-                <TouchableOpacity style = {{color: '#ffffff', marginLeft: 20}} onPress = {(envoieauServeur)}>
+                <TouchableOpacity style = {{color: '#ffffff', marginLeft: 20}} onPress = {(retour)}>
                     <Image
                         source = {require('C:/Users/ngoup/Documents/Projet/React native/Agence/images/Expand_left_light.png')}
                         style = {styles.image_retour}
@@ -47,6 +49,7 @@ const App3  = () => {
                     onBlur = {() => setfocus(false)}
                     value = {numero}
                     onChangeText = {setnumero}
+                    keyboardType = "numeric"
                 />
                 <TouchableOpacity style = {styles.button} onPress = {(envoie)}>
                     <Text style = {{color : '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight : 'bold'}}>Envoyer le code</Text>

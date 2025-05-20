@@ -1,7 +1,15 @@
-import React from 'react';
+import { React, useEffect } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 
-const App = () => {
+const App = ({ navigation }) => {
+    useEffect(() => {
+        const temps = setTimeout(() => {
+            navigation.navigate('App1'); 
+        }, 2000);
+
+        return () => clearTimeout(temps);
+    }, []);
+
     return (
         <View style={styles.container}>
             <Image 
