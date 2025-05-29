@@ -1,18 +1,42 @@
 import { React, useState } from 'react';
-import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity, Alert } from 'react-native';
 
-const App1 = ({ navigation }) => {
-    function connexion() {
+const App1 =  ({ navigation }) => {
+    const connexion = async () => {
         if ((numero == '') || (mdp == '')) {
             alert('Entrer votre numéro de téléphone et/ou votre mot de passe.');
             return;
         }
-        setnumero('');
-        setmdp('');
-        navigation.navigate('App6');
+
+        try {
+            const reponse = await fetch('http://10.0.2.2:5454/connexion', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    numero : numero,
+                    mdp : mdp
+                })
+            })
+
+            const resultat = await reponse.json();
+            if (resultat.result) {
+                setnumero('');
+                setmdp('');
+                navigation.navigate('App6');
+            } else {
+                Alert.alert("Compte inexistant", "Votre compte n'existe pas")
+            }
+        } catch (e) {
+            console.error(e)
+            Alert.alert("Echec de connexion", "Connectez vous à internet")
+        }
     }
 
-    function mdpoublie() {
+    function google() {
+        Alert.alert('Pas encore disponible', 'Revenez plus tard')
+    }
+
+    function mdpoublie() { 
         setnumero('');
         setmdp('');
         navigation.navigate('App3');
@@ -43,7 +67,7 @@ const App1 = ({ navigation }) => {
             </View>
             <View style = {styles.container2}>
                 <Image
-                    source = {require('./images/Logoorange.png')}
+                    source = {require('./images/safaraplace2.png')}
                     style = {styles.image}
                 />
             </View>
@@ -58,7 +82,8 @@ const App1 = ({ navigation }) => {
                     onChangeText = {setnumero}
                 />
                 <Text style = {styles.texte1}>Entrer votre mot de passe</Text>
-                <TextInput style = {focus2 ? styles.textinputfocus : styles.textinput} secureTextEntry = {visible_mdp}
+                <TextInput style = {focus2 ? styles.textinputfocus : styles.textinput} 
+                    secureTextEntry = {visible_mdp}
                     placeholder = 'Votre mot de passe...'
                     onFocus = {() => setfocus2(true)}
                     onBlur = {() => setfocus2(false)}
@@ -71,13 +96,21 @@ const App1 = ({ navigation }) => {
                 />
                 </TouchableOpacity>
                 <TouchableOpacity style = {{alignSelf : 'flex-end', paddingTop: 25}} onPress = {(mdpoublie)}>
-                    <Text style = {{color : '#F75D37', paddingBottom: 5, fontFamily: "inter", fontSize: 13}}>Mot de passe oublié ?</Text>
+                    <Text style = {{color : '#28068E', paddingBottom: 5, fontFamily: "inter", fontSize: 13}}>Mot de passe oublié ?</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style = {styles.button} onPress = {(connexion)}>
                     <Text style = {{color : '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight : 'bold'}}>Se connecter</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress = {(enregistrer)}>
-                    <Text style = {{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#F75D37', fontWeight : 'bold'}}>Pas de compte ? Créez en un</Text>
+                    <Text style = {{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#28068E', fontWeight : 'bold'}}>Pas de compte ? Créez en un</Text>
+                </TouchableOpacity>
+                <Text style = {{alignSelf: 'center', paddingTop: 15, paddingBottom: 15,}} >ou</Text>
+                <TouchableOpacity style = {{borderWidth: 1, borderColor: '#D1D1D1' , borderRadius: 20, width : 300, alignSelf : 'center', flexDirection: 'row', height: 45}} onPress = {(google)}>
+                    <Image
+                        source = {require('./images/google.png')}
+                        style = {{width : 25, height : 25, alignSelf: 'center', marginLeft: 60,}}
+                    />
+                    <Text style = {{alignSelf: 'center', fontFamily: 'nunito', fontWeight: 'bold', color : 'black', marginLeft: 10}}>Continuer avec Google</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -151,7 +184,7 @@ const styles = StyleSheet.create({
     },
 
     button : {
-        backgroundColor : '#F75D37',
+        backgroundColor : '#28068E', // #582df3
         height : 45,
         justifyContent: 'center',
         alignItems: 'center',

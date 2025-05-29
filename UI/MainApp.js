@@ -10,6 +10,7 @@ import App4 from './App4';
 import App5 from './App5';
 import App6 from './App6';
 import App7 from './App7';
+import OnBoard1 from './OnBoard1';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ export default function MainApp() {
         <Stack.Screen name="App5" component={App5} options={{ headerShown: false }} />
         <Stack.Screen name="App6" component={App6} options={{ headerShown: false }} />
         <Stack.Screen name="App7" component={App7} options={{ headerShown: false }}  />
+        <Stack.Screen name="OnBoard1" component={OnBoard1} options={{ headerShown: false }}  />
       </Stack.Navigator>
     </NavigationContainer>
   );

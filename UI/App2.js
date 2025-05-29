@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity, Alert } from 'react-native';
 
 const App2 = ({ navigation }) => {
     function retour() {
@@ -9,7 +9,7 @@ const App2 = ({ navigation }) => {
         navigation.navigate('App1');
     }
 
-    function enregistrer() {
+    const enregistrer = async () => {
         if (mdp == '' || numero == '' || mdp2 == '') {
             alert('Entrer votre numéro et/ou votre mot de passe');
             return;
@@ -20,7 +20,29 @@ const App2 = ({ navigation }) => {
             return;
         }
 
-        alert('Bientôt disponible');
+        try {
+            const reponse = await fetch('http://10.0.2.2:5454/inscrire', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    numero : numero,
+                    mdp : mdp
+                })
+            })
+
+            const resultat = await reponse.json();
+            if (resultat.result) {
+                setnumero('');
+                setmdp('');
+                Alert.alert('Inscription réussie')
+                navigation.navigate('App1')
+            } else {
+                Alert.alert("Inscription failed", "Le compte existe déjà")
+            }
+        } catch (e) {
+            console.error(e)
+            Alert.alert("Echec de connexion", "Connectez vous à internet")
+        }
     }
 
     function voirMdp() {
@@ -57,7 +79,7 @@ const App2 = ({ navigation }) => {
             </View>
             <View style = {styles.container2}>
                 <Image
-                    source = {require('./images/Logoorange.png')}
+                    source = {require('./images/safaraplace2.png')}
                     style = {styles.image}
                 />
             </View>
@@ -103,7 +125,7 @@ const App2 = ({ navigation }) => {
                     <Text style = {{color : '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight : 'bold'}}>Enregistrer</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress = {(retour)}>
-                    <Text style = {{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#F75D37', fontWeight : 'bold'}}>Vous avez déjà un compte ? Se connecter</Text>
+                    <Text style = {{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#28068E', fontWeight : 'bold'}}>Vous avez déjà un compte ? Se connecter</Text>
                 </TouchableOpacity>
           </View>
         </View>
@@ -179,7 +201,7 @@ const styles = StyleSheet.create({
     },
 
     button : {
-        backgroundColor : '#F75D37',
+        backgroundColor : '#28068E',
         height : 45,
         justifyContent: 'center',
         alignItems: 'center',

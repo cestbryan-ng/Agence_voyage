@@ -4,7 +4,7 @@ import { View, Image, StyleSheet } from 'react-native';
 const App = ({ navigation }) => {
     useEffect(() => {
         const temps = setTimeout(() => {
-            navigation.navigate('App1'); 
+            navigation.navigate('OnBoard1'); 
         }, 2000);
 
         return () => clearTimeout(temps);
@@ -13,7 +13,7 @@ const App = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Image 
-                source = {require('./images/frame.png')} 
+                source = {require('./images/safaraplace.png')} 
                 style = {styles.image}
             />
         </View>
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F75D37',
+        backgroundColor: '#28068E',
     },
     image: {
         width : 300,
