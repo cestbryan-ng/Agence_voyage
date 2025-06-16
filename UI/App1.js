@@ -22,7 +22,7 @@ const App1 =  ({ navigation }) => {
             if (resultat.result) {
                 setnumero('');
                 setmdp('');
-                navigation.navigate('App6');
+                navigation.navigate('App6', {nom_envoye : nom});
             } else {
                 Alert.alert("Compte inexistant", "Votre compte n'existe pas")
             }
@@ -54,6 +54,7 @@ const App1 =  ({ navigation }) => {
         else setvisible_mdp(true);
     }
 
+    const [nom, setnom] = useState('');
     const [focus1, setfocus1] = useState(false);
     const [focus2, setfocus2] = useState(false);
     const [visible_mdp, setvisible_mdp] = useState(true);

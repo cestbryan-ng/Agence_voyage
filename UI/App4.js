@@ -52,7 +52,7 @@ const App4 = ({ navigation, route }) => {
             <View style = {styles.container3}>
                 <Text style = {styles.texte1}>Mot de passe oublié?</Text>
                 <Text style = {styles.texte2}>Un code de 4 chiffres a été envoyé à</Text>
-                <Text style = {styles.texte3}>{numero_envoye}</Text>
+                <Text style = {styles.texte3}>{ '+237 ' + numero_envoye }</Text>
             </View>
             <View style = {styles.container4}>
                 <TextInput

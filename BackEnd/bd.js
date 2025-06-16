@@ -13,7 +13,7 @@ res.send('Connecté')
 
 app.post('/connexion', (req, res) => {
     const {numero, mdp} = req.body
-    const sql = 'select * from user where numero_adresse = ? and mot_de_passe = ?;';
+    const sql = 'select nom_utilisateur from user where numero_adresse = ? and mot_de_passe = ?;';
     db.query(sql, [parseInt(numero), mdp], (err, results) => {
         if (err) {
             console.error('Erreur requête :', err);
@@ -21,9 +21,9 @@ app.post('/connexion', (req, res) => {
         } else {
             console.log('1 requête reussie')
             if (results.length > 0) {
-            res.json({ result: true });
+                res.json({ result: true });
             } else {
-            res.json({ result: false });
+                res.json({ result: false });
             }
         }
     })

@@ -12,16 +12,21 @@ const OnBoard1 =  ({ navigation }) => {
                 source = {require('./images/56465.png')}
                 style = {{width: 362, height: 343, alignSelf: 'center', marginTop: 50}}
             />
-            <Text style={{paddingTop: 20, fontWeight: 'bold', color : 'black', fontSize: 26, textAlign : 'center', paddingBottom: 20,}}>
-                La meilleure application mobile de voyage du Cameroun
+            <Text style={{paddingTop: 20, fontWeight: 'bold', color : 'black', fontSize: 30, textAlign : 'center', paddingBottom: 20,}}>
+                Votre Marketplace de Voyage au Cameroun
             </Text>
-            <Text style={{fontSize: 15, fontFamily: 'inter', textAlign : 'justify'}}>
-                Lorem ipsum dolor sit amet consectetur. Mi ultricies ultrices fermentum a. Duis neque lectus pharetra ac sed lorem.
+            <Text style={{fontWeight: 'bold', color : 'black', fontSize: 15, textAlign : 'center', paddingBottom: 20,}}> 
+               Comparez, choisissez, réservez en toute confiance 
             </Text>
-            <TouchableOpacity onPress = {(suivant)}>
+            <Text style={{fontSize: 15, fontFamily: 'Inter', textAlign : 'justify', color : 'black'}}>
+                SafaraPlace réunit les meilleures agences de voyage certifiées du Cameroun sur une seule plateforme.
+                Explorez les plages de Limbe, les safaris de Waza, le Mont Cameroun et bien plus encore. Comparez les prix, consultez les avis authentiques et réservez en quelques clics.
+                Du voyageur solo au groupe familial, nous adaptons chaque expérience à vos envies et votre budget. Découvrez l'authenticité du Cameroun avec SafariPlace.
+            </Text>
+            <TouchableOpacity onPress = {(suivant)} style = {{width: 40, alignSelf : 'flex-end', marginTop: -180}}>
             <Image
                 source = {require('./images/fleche.png')}
-                style = {{width: 40, height: 40, alignSelf: 'center', marginTop: 200, alignSelf: 'flex-end'}}
+                style = {{width: 60, height: 60, alignSelf: 'center', marginTop: 200, alignSelf: 'flex-end'}}
             />
             </TouchableOpacity>
         </View>

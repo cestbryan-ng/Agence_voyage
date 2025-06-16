@@ -4,7 +4,7 @@ import { View, StyleSheet, Image, Text } from 'react-native';
 const App6 = ({ navigation }) => {
     useEffect(() => {
         const temps = setTimeout(() => {
-            navigation.navigate('App7'); 
+            navigation.navigate('App8'); 
         }, 4000);
 
         return () => clearTimeout(temps);
