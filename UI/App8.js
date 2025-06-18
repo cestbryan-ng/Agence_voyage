@@ -28,7 +28,7 @@ const App8 = ({ navigation, route }) => {
   const [errorVoyages, setErrorVoyages] = useState(null);
 
   // Récupération des paramètres de navigation
-  const { nom_envoye, userData, token } = route.params || {};
+  const { nom_envoye, userData, token } = route.params ;
 
   // Fonction pour récupérer les voyages depuis l'API
   const fetchVoyages = async () => {
@@ -52,11 +52,10 @@ const App8 = ({ navigation, route }) => {
       console.log('Statut réponse voyages:', response.status);
 
       const responseText = await response.text();
-      console.log('Réponse brute voyages:', responseText);
+    
 
       if (response.status == 200) {
         const voyagesData = JSON.parse(responseText);
-        console.log('Voyages récupérés:', voyagesData);
 
         let voyagesList = [];
         
@@ -112,12 +111,20 @@ const App8 = ({ navigation, route }) => {
   };
 
   // Fonctions existantes
-  function voyage() {
-
-  }
+  const voyage = () => {
+    navigation.navigate('App12', {
+      token: token,
+      userData: userData,
+      nom_envoye: nom_envoye
+    });
+  };
 
   function reserver() {
-    navigation.navigate('App9');
+    navigation.navigate('App9', {
+      token: token,
+      userData: userData,
+      nom_envoye: nom_envoye
+    });
   }
 
   const toggleSideMenu = () => {
@@ -229,9 +236,6 @@ const App8 = ({ navigation, route }) => {
             <View style={styles.section}>
                 <View style={styles.sectionHeader}>
                     <Text style={styles.sectionTitle}>Catégories</Text>
-                    <TouchableOpacity onPress={(voyage)}>
-                        <Text style={styles.seeAllText}>Voir tout</Text>
-                    </TouchableOpacity>
                 </View>
           
                 <View style={styles.categoriesContainer}>
@@ -269,7 +273,7 @@ const App8 = ({ navigation, route }) => {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Voyages</Text>
-            <TouchableOpacity>
+            <TouchableOpacity  onPress={(voyage)}>
               <Text style={styles.seeAllText}>Voir tout</Text>
             </TouchableOpacity>
           </View>
@@ -347,7 +351,7 @@ const App8 = ({ navigation, route }) => {
         
         <TouchableOpacity style={styles.bottomNavItem}>
           <FontAwesome name="ticket" size={25} color="#666" />
-          <Text style={styles.bottomNavText}>Ticket</Text>
+          <Text style={styles.bottomNavText}>Tickets</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.bottomNavItem}>

@@ -14,6 +14,9 @@ import App8 from './App8';
 import App9 from './App9';
 import App10 from './App10';
 import App11 from './App11';
+import App12 from './App12';
+import App13 from './App13';
+
 import OnBoard1 from './OnBoard1';
 
 const Stack = createNativeStackNavigator();
@@ -34,6 +37,8 @@ export default function MainApp() {
         <Stack.Screen name="App9" component={App9} options={{ headerShown: false }}  />
         <Stack.Screen name="App10" component={App10} options={{ headerShown: false }}  />
         <Stack.Screen name="App11" component={App11} options={{ headerShown: false }}  />
+        <Stack.Screen name="App12" component={App12} options={{ headerShown: false }}  />
+        <Stack.Screen name="App13" component={App13} options={{ headerShown: false }}  />
         <Stack.Screen name="OnBoard1" component={OnBoard1} options={{ headerShown: false }}  />
       </Stack.Navigator>
     </NavigationContainer>

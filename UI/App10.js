@@ -15,8 +15,12 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 const { width, height } = Dimensions.get('window');
 
 const App10 = ({ navigation, route }) => {
-  function retour() {
-    navigation.navigate('App8');
+  const retour = () => {
+      navigation.navigate('App8', {
+        nom_envoye: nom_envoye,
+        userData: userData,
+        token: token
+      });
   }
 
   const { voyage, token, userData, nom_envoye } = route.params;
@@ -190,7 +194,7 @@ const App10 = ({ navigation, route }) => {
           </View>
 
           <TouchableOpacity style={styles.continueButton}>
-            <Text style={styles.continueButtonText}>Continuer</Text>
+            <Text style={styles.continueButtonText}>Réserver</Text>
           </TouchableOpacity>
         </View>
 

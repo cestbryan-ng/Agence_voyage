@@ -37,14 +37,12 @@ const App1 = ({ navigation }) => {
 
             // Toujours lire la réponse comme texte d'abord pour debug
             const responseText = await response.text();
-            console.log('Réponse brute du serveur:', responseText);
 
             if (response.status == 200) {
                 // Essayer de parser en JSON
                 let userData;
                 try {
                     userData = JSON.parse(responseText);
-                    console.log('Données utilisateur parsées:', userData);
                 } catch (parseError) {
                     console.error('Erreur parsing JSON:', parseError);
                     Alert.alert("Erreur", "Réponse invalide du serveur");

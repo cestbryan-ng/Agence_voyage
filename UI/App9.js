@@ -15,20 +15,33 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const { width } = Dimensions.get('window');
 
-const App9 = ({ navigation }) => {
+const App9 = ({ navigation, route }) => {
   function retour() {
-    navigation.navigate('App8');
+    navigation.navigate('App8', {
+      token: token,
+      userData: userData,
+      nom_envoye: nom_envoye
+    });
   }
 
+  function rechercher() {
+    navigation.navigate('App13', {
+      token: token,
+      userData: userData,
+      nom_envoye: nom_envoye,
+      lieuDepart : departure,
+      lieuArrive : destination
+    }); 
+  }
+
+  const { nom_envoye, userData, token } = route.params ;
   const [selectedTab, setSelectedTab] = useState('Voyage');
   const [departure, setDeparture] = useState('');
   const [destination, setDestination] = useState('');
-  const [date, setDate] = useState('');
-  const [passengers, setPassengers] = useState('1 passager');
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#6B46C1" />
+      <StatusBar barStyle="light-content" backgroundColor="#28068E" />
       
       {/* Header */}
       <View style={styles.header}>
@@ -111,41 +124,8 @@ const App9 = ({ navigation }) => {
             </View>
           </View>
 
-          {/* Date and Passengers Row */}
-          <View style={styles.rowContainer}>
-            {/* Date */}
-            <View style={styles.halfInputGroup}>
-              <View style={styles.labelContainer}>
-                <View style={styles.redDot} />
-                <Text style={styles.inputLabel}>Date départ</Text>
-              </View>
-              <TouchableOpacity style={styles.dateContainer}>
-                <TextInput
-                  style={styles.dateInput}
-                  placeholder="jj/mm/aaaa"
-                  value={date}
-                  onChangeText={setDate}
-                  placeholderTextColor="#999"
-                />
-                <Icon name="event" size={20} color="#28068E" />
-              </TouchableOpacity>
-            </View>
-
-            {/* Passengers */}
-            <View style={styles.halfInputGroup}>
-              <View style={styles.labelContainer}>
-                <View style={styles.redDot} />
-                <Text style={styles.inputLabel}>Passagers</Text>
-              </View>
-              <TouchableOpacity style={styles.passengersContainer}>
-                <Text style={styles.passengersText}>{passengers}</Text>
-                <Icon name="keyboard-arrow-down" size={20} color="#28068E" />
-              </TouchableOpacity>
-            </View>
-          </View>
-
           {/* Search Button */}
-          <TouchableOpacity style={styles.searchButton}>
+          <TouchableOpacity style={styles.searchButton} onPress={(rechercher)}>
             <Icon name="search" size={20} color="white" style={styles.searchIcon} />
             <Text style={styles.searchButtonText}>Rechercher des voyages</Text>
           </TouchableOpacity>
