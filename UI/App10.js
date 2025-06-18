@@ -14,11 +14,12 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const { width, height } = Dimensions.get('window');
 
-const App10 = ({ navigation }) => {
+const App10 = ({ navigation, route }) => {
   function retour() {
     navigation.navigate('App8');
   }
 
+  const { voyage, token, userData, nom_envoye } = route.params;
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [showSeatSelection, setShowSeatSelection] = useState(false);
 
@@ -28,9 +29,9 @@ const App10 = ({ navigation }) => {
     // Driver seat
     seats.push({ id: 'driver', type: 'driver', available: false });
     
-    // Regular seats 1-62
-    for (let i = 1; i <= 62; i++) {
-      const isReserved = [1, 2, 3].includes(i); // Quelques sièges réservés
+    // Regular seats 
+    for (let i = 1; i <= voyage.nbrPlaceRestante; i++) {
+      const isReserved = [].includes(i); // Quelques sièges réservés
       const isSelected = selectedSeats.includes(i);
       seats.push({
         id: i,
@@ -130,16 +131,7 @@ const App10 = ({ navigation }) => {
               <Icon name="home" size={20} color="#28068E" />
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Agence de voyage</Text>
-                <Text style={styles.detailValue}>Touristique</Text>
-              </View>
-            </View>
-
-            {/* Travel Date */}
-            <View style={styles.detailRow}>
-              <Icon name="event" size={20} color="#28068E" />
-              <View style={styles.detailContent}>
-                <Text style={styles.detailLabel}>Date du voyage</Text>
-                <Text style={styles.detailValue}>Fevrier 10, 2025</Text>
+                <Text style={styles.detailValue}>{voyage.nomAgence || 'Non défini'}</Text>
               </View>
             </View>
 
@@ -148,7 +140,7 @@ const App10 = ({ navigation }) => {
               <Icon name="location-on" size={20} color="#28068E" />
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Lieu de départ</Text>
-                <Text style={styles.detailValue}>Maroua</Text>
+                <Text style={styles.detailValue}>{voyage.lieuDepart || 'Non défini'}</Text>
               </View>
             </View>
 
@@ -157,7 +149,7 @@ const App10 = ({ navigation }) => {
               <Icon name="place" size={20} color="#28068E" />
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Lieu d'arrivé</Text>
-                <Text style={styles.detailValue}>Bertoua</Text>
+                <Text style={styles.detailValue}>{voyage.lieuArrive || 'Non défini'}</Text>
               </View>
             </View>
 
@@ -166,7 +158,7 @@ const App10 = ({ navigation }) => {
               <Icon name="credit-card" size={20} color="#28068E" />
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Unité</Text>
-                <Text style={styles.detailValue}>15000 FCFA</Text>
+                <Text style={styles.detailValue}>{voyage.prix || 'Erreur'} FCFA</Text>
               </View>
             </View>
 
@@ -182,7 +174,7 @@ const App10 = ({ navigation }) => {
             {/* Total Price */}
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Prix Total</Text>
-              <Text style={styles.totalValue}>{selectedSeats.length * 15000} FCFA</Text>
+              <Text style={styles.totalValue}>{selectedSeats.length * voyage.prix} FCFA</Text>
             </View>
 
             {/* Selected Seats */}

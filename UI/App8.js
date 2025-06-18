@@ -1,4 +1,4 @@
-import { React , useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,23 +10,115 @@ import {
   Dimensions,
   ImageBackground,
   Animated,
-  Modal
+  Modal,
+  ActivityIndicator
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const { width } = Dimensions.get('window');
 
-const App8 = ({ navigation }) => {
+const App8 = ({ navigation, route }) => {
+  // États existants
+  const [sideMenuVisible, setSideMenuVisible] = useState(false);
+  
+  // Nouveaux états pour les voyages
+  const [voyages, setVoyages] = useState([]);
+  const [loadingVoyages, setLoadingVoyages] = useState(true);
+  const [errorVoyages, setErrorVoyages] = useState(null);
+
+  // Récupération des paramètres de navigation
+  const { nom_envoye, userData, token } = route.params || {};
+
+  // Fonction pour récupérer les voyages depuis l'API
+  const fetchVoyages = async () => {
+    try {
+      setLoadingVoyages(true);
+      setErrorVoyages(null);
+
+      const apiUrl = 'http://agence-voyage.ddns.net/api/voyage/all?page=0&size=4'; // Limité à 4 voyages
+
+      console.log('=== RÉCUPÉRATION VOYAGES ===');
+      console.log('URL:', apiUrl);
+
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'accept': 'application/json',
+          // 'Authorization': `Bearer ${token}` // Si l'API nécessite l'authentification
+        }
+      });
+
+      console.log('Statut réponse voyages:', response.status);
+
+      const responseText = await response.text();
+      console.log('Réponse brute voyages:', responseText);
+
+      if (response.status == 200) {
+        const voyagesData = JSON.parse(responseText);
+        console.log('Voyages récupérés:', voyagesData);
+
+        let voyagesList = [];
+        
+        // Limiter à 4 voyages pour l'affichage d'accueil
+        if (voyagesData && voyagesData.content) {
+          voyagesList = voyagesData.content;
+          const limitedVoyages = voyagesList.slice(0, 4);
+          setVoyages(limitedVoyages);
+        }
+      } else {
+        console.log('Erreur récupération voyages:', response.status);
+        setErrorVoyages(`Erreur ${response.status}`);
+      }
+    } catch (error) {
+      console.error('=== ERREUR FETCH VOYAGES ===');
+      console.error('Message:', error.message);
+      setErrorVoyages('Erreur de réseau');
+    } finally {
+      setLoadingVoyages(false);
+    }
+  };
+
+  // Charger les voyages au montage du composant
+  useEffect(() => {
+    fetchVoyages();
+  }, []);
+
+  // Fonction pour formater la date
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Date non définie';
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('fr-FR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    } catch (error) {
+      return 'Date invalide';
+    }
+  };
+
+  // Fonction pour formater l'heure
+  const formatTime = (timeString) => {
+    if (!timeString) return 'Heure non définie';
+    return timeString.slice(timeString.indexOf('T') + 1, timeString.indexOf('M'));
+  };
+
+  // Fonction pour formater le prix
+  const formatPrice = (price) => {
+    if (!price) return 'Prix non défini';
+    return `${price.toLocaleString()} FCFA`;
+  };
+
+  // Fonctions existantes
   function voyage() {
-    navigation.navigate('App10');
+
   }
 
   function reserver() {
     navigation.navigate('App9');
   }
-
-  const [sideMenuVisible, setSideMenuVisible] = useState(false)
 
   const toggleSideMenu = () => {
     setSideMenuVisible(!sideMenuVisible);
@@ -37,35 +129,97 @@ const App8 = ({ navigation }) => {
   };
 
   function deconnexion() {
-    navigation.navigate('App1')
+    navigation.navigate('App1');
   }
+
+  // Fonction pour naviguer vers les détails d'un voyage
+  const navigateToVoyageDetails = (voyage) => {
+    navigation.navigate('App10', {
+      voyage: voyage,
+      token: token,
+      userData: userData,
+      nom_envoye: nom_envoye
+    });
+  };
+
+  // Rendu d'un voyage
+  const renderVoyage = (voyage, index) => {
+    // Image par défaut basée sur l'index si pas d'image
+    const defaultImages = [
+      require('./images/Blue-Bird-Express-1024x603.png'),
+      require('./images/OIP.png'),
+      require('./images/777-2.png'),
+      require('./images/Blue-Bird-Express-1024x603.png')
+    ];
+    
+    const imageSource = voyage.smallImage ? 
+      { uri: voyage.smallImage } : 
+      defaultImages[index % defaultImages.length];
+
+    return (
+      <TouchableOpacity 
+        key={voyage.idVoyage || index} 
+        style={styles.visitedCard} 
+        onPress={() => navigateToVoyageDetails(voyage)}
+      >
+        <Image
+          source={imageSource}
+          style={styles.visitedImage}
+          defaultSource={defaultImages[0]} // Image de fallback
+        />
+        <View style={styles.visitedInfo}>
+          <Text style={styles.visitedTitle}>
+            {voyage.nomAgence || 'Agence Inconnue'} {voyage.nomClasseVoyage}
+          </Text>
+          <View style={styles.locationInfo}>
+            <Icon name="schedule" size={15} color="white" />
+            <Text style={styles.locationText}>
+              {formatTime(voyage.dureeVoyage)} 
+            </Text>
+          </View>
+          <View style={styles.locationInfo}>
+            <Icon name="location-on" size={12} color="white" />
+            <Text style={styles.locationText}>
+              {voyage.lieuDepart || 'Départ'} à {voyage.lieuArrive || 'Arrivée'}
+            </Text>
+          </View>
+          {voyage.prix && (
+            <View style={styles.locationInfo}>
+              <Icon name="monetization-on" size={12} color="white" />
+              <Text style={styles.locationText}>
+                {formatPrice(voyage.prix)}
+              </Text>
+            </View>
+          )}
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
       
         {/* Header avec image de fond */}
-        <ImageBackground style = {{height: 180}} source = {require('./images/lesnuages.png')}> 
+        <ImageBackground style={{height: 180}} source={require('./images/lesnuages.png')}> 
             <View style={styles.tete}>
                 <View style={styles.headerOverlay}>
                     {/* Top bar */}
                     <View style={styles.topBar}>
-                        <TouchableOpacity style = {{backgroundColor : '#f3f3f386', borderRadius: 5, padding : 7}} onPress={toggleSideMenu}>
-                            <Icon name="menu" size={31} color="white" />
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.profileButton}>
+                      <View>
+                        <TouchableOpacity style={styles.profileButton} onPress={toggleSideMenu}>
                           <Icon name="person" size={40} color="gray" />
                         </TouchableOpacity>
+                        <Text style={styles.locationText}>{nom_envoye || 'Utilisateur'}</Text>
+                      </View>
                     </View>
 
                     {/* Logo */}
                     <View style={styles.logoContainer}>
                         <Image
-                            source = {require('./images/safaraplace.png')}
-                            style = {{width: 200, height: 200,}}
+                            source={require('./images/safaraplace.png')}
+                            style={{width: 200, height: 200}}
                         />
                     </View>
-
-                    {/* Barre de recherche */}
                 </View>
             </View>
         </ImageBackground>
@@ -75,13 +229,13 @@ const App8 = ({ navigation }) => {
             <View style={styles.section}>
                 <View style={styles.sectionHeader}>
                     <Text style={styles.sectionTitle}>Catégories</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={(voyage)}>
                         <Text style={styles.seeAllText}>Voir tout</Text>
                     </TouchableOpacity>
                 </View>
           
                 <View style={styles.categoriesContainer}>
-                    <TouchableOpacity style={styles.categoryItem} onPress={(reserver)}>
+                    <TouchableOpacity style={styles.categoryItem} onPress={reserver}>
                         <View style={styles.categoryIcon}>
                         <FontAwesome name="bus" size={35} color="#28068E" />
                         </View>
@@ -111,7 +265,7 @@ const App8 = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Voyages */}
+        {/* Voyages - Section mise à jour avec l'API */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Voyages</Text>
@@ -120,75 +274,32 @@ const App8 = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={styles.visitedContainer}>
-              <TouchableOpacity style={styles.visitedCard} onPress={(voyage)}>
-                <Image
-                  source= {require('./images/Blue-Bird-Express-1024x603.png')}
-                  style={styles.visitedImage}
-                />
-                <View style={styles.visitedInfo}>
-                  <Text style={styles.visitedTitle}>Blue Bird</Text>
-                  <View style={styles.locationInfo}>
-                    <Icon name="schedule" size={15} color="white" />
-                    <Text style={styles.locationText}>11/06/2025 05:00</Text>
-                  </View>
-                  <View style={styles.locationInfo}>
-                    <Icon name="location-on" size={12} color="white" />
-                    <Text style={styles.locationText}>Bafoussam à Yaoundé</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.visitedCard} onPress={(voyage)}>
-                <Image
-                  source={require('./images/OIP.png')}
-                  style={styles.visitedImage}
-                />
-                <View style={styles.visitedInfo}>
-                  <Text style={styles.visitedTitle}>General Express</Text>
-                  <View style={styles.locationInfo}>
-                    <Icon name="schedule" size={15} color="white" />
-                    <Text style={styles.locationText}>10/06/2025 08:00</Text>
-                  </View>
-                  <View style={styles.locationInfo}>
-                    <Icon name="location-on" size={12} color="white" />
-                    <Text style={styles.locationText}>Douala à Yaoundé</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.visitedCard} onPress={(voyage)}>
-                <Image
-                  source={require('./images/777-2.png')}
-                  style={styles.visitedImage}
-                />
-                <View style={styles.visitedOverlay}>
-                  <View style={styles.ratingContainer}>
-                    <FontAwesome name="star" size={12} color='white' />
-                    <Text style={styles.ratingText}>4.2</Text>
-                  </View>
-                  <View style={styles.favoriteButton}>
-                    <FontAwesome name="heart-o" size={16} color="white" />
-                  </View>
-                </View>
-                <View style={styles.visitedInfo}>
-                  <Text style={styles.visitedTitle}>Touristique Express</Text>
-                  <View style={styles.locationInfo}>
-                    <Icon name="schedule" size={15} color="white" />
-                    <Text style={styles.locationText}>08/06/2025 05:00</Text>
-                  </View>
-                  <View style={styles.locationInfo}>
-                    <Icon name="location-on" size={12} color="white" />
-                    <Text style={styles.locationText}>Yaoundé à Bafoussam</Text>
-                  </View>
-                </View>
+          {loadingVoyages ? (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="large" color="#28068E" />
+              <Text style={styles.loadingText}>Chargement des voyages...</Text>
+            </View>
+          ) : errorVoyages ? (
+            <View style={styles.errorContainer}>
+              <Text style={styles.errorText}>Erreur: {errorVoyages}</Text>
+              <TouchableOpacity style={styles.retryButton} onPress={fetchVoyages}>
+                <Text style={styles.retryText}>Réessayer</Text>
               </TouchableOpacity>
             </View>
-          </ScrollView>
+          ) : voyages.length > 0 ? (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View style={styles.visitedContainer}>
+                {voyages.map((voyage, index) => renderVoyage(voyage, index))}
+              </View>
+            </ScrollView>
+          ) : (
+            <View style={styles.noDataContainer}>
+              <Text style={styles.noDataText}>Aucun voyage disponible</Text>
+            </View>
+          )}
         </View>
 
-        {/* Agences */}
+        {/* Agences - Section inchangée */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Agences</Text>
@@ -204,7 +315,7 @@ const App8 = ({ navigation }) => {
                   source={require('./images/OIP.png')}
                   style={styles.agencyImage}
                 />
-                <Text style = {{position : 'absolute', color : 'white', fontWeight: 'bold', fontSize: 15, marginTop: 80, alignSelf : 'center', paddingLeft : 5, paddingRight : 5, textAlign : 'center'}}>General Express Voyage</Text>
+                <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 15, marginTop: 80, alignSelf: 'center', paddingLeft: 5, paddingRight: 5, textAlign: 'center'}}>General Express Voyage</Text>
               </TouchableOpacity>
               
               <TouchableOpacity style={styles.agencyCard}>
@@ -212,7 +323,7 @@ const App8 = ({ navigation }) => {
                   source={require('./images/777-2.png')}
                   style={styles.agencyImage}
                 />
-                <Text style = {{position : 'absolute', color : 'white', fontWeight: 'bold', fontSize: 15, marginTop: 95, alignSelf : 'center', paddingLeft : 5, paddingRight : 5, textAlign : 'center'}}>Touristique Express</Text>
+                <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 15, marginTop: 95, alignSelf: 'center', paddingLeft: 5, paddingRight: 5, textAlign: 'center'}}>Touristique Express</Text>
               </TouchableOpacity>
               
               <TouchableOpacity style={styles.agencyCard}>
@@ -220,16 +331,16 @@ const App8 = ({ navigation }) => {
                   source={require('./images/Blue-Bird-Express-1024x603.png')}
                   style={styles.agencyImage}
                 />
-                <Text style = {{position : 'absolute', color : 'white', fontWeight: 'bold', fontSize: 15, marginTop: 95, alignSelf : 'center', paddingLeft : 5, paddingRight : 5, textAlign : 'center'}}>BlueBird</Text>
+                <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 15, marginTop: 95, alignSelf: 'center', paddingLeft: 5, paddingRight: 5, textAlign: 'center'}}>BlueBird</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
         </View>
       </ScrollView>
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation - Inchangé */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.bottomNavItem} disabled = {true}>
+        <TouchableOpacity style={styles.bottomNavItem} disabled={true}>
           <FontAwesome name="home" size={25} color="#28068E" />
           <Text style={[styles.bottomNavText, styles.bottomNavTextActive]}>Accueil</Text>
         </TouchableOpacity>
@@ -250,7 +361,7 @@ const App8 = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Side Menu Modal */}
+      {/* Side Menu Modal - Inchangé */}
       <Modal
         animationType="none"
         transparent={true}
@@ -264,12 +375,10 @@ const App8 = ({ navigation }) => {
             activeOpacity={1}
           />
           <View style={styles.sideMenu}>
-            {/* Close button */}
             <TouchableOpacity style={styles.closeButton} onPress={closeSideMenu}>
               <Icon name="close" size={24} color="#ff4444" />
             </TouchableOpacity>
 
-            {/* Menu Items */}
             <ScrollView style={styles.menuContent} showsVerticalScrollIndicator={false}>
               <TouchableOpacity style={styles.menuItem}>
                 <Text style={styles.menuItemText}>Passer en Premium</Text>
@@ -328,6 +437,7 @@ const App8 = ({ navigation }) => {
   );
 };
 
+// Styles - Les styles existants plus les nouveaux
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -336,19 +446,18 @@ const styles = StyleSheet.create({
   tete: {
     height: 200,
     flex: 1,
-    zIndex : 10,
+    zIndex: 10,
   },
   headerOverlay: {
     flex: 1,
-    paddingLeft : 20,
-    paddingRight : 20,
+    paddingLeft: 20,
+    paddingRight: 20,
     paddingTop: 5,
   },
   topBar: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop : 20,
+    alignItems: 'flex-end',
+    marginTop: 20,
     marginBottom: -30,
   },
   homeText: {
@@ -357,6 +466,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   profileButton: {
+    alignSelf: 'flex-end',
     backgroundColor: 'white',
     borderRadius: 20,
     overflow: 'hidden',
@@ -384,51 +494,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginTop: 2,
   },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 25,
-    height: 50,
-    marginTop: -23,
-  },
-  searchContainerfocus : {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 25,
-    height: 50,
-    marginTop: -23,
-    borderColor: '#009dd1d6',
-    borderWidth: 1,
-  },
-  searchIcon: {
-    marginLeft: 15,
-    marginRight: -10,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    color : 'black',
-    paddingLeft: 15,
-    fontSize: 17,
-    fontFamily: 'Inter',
-  },
-  searchInputfocus: {
-    borderColor: '#009dd1d6',
-    borderWidth: 1,
-    flex: 1,
-    fontSize: 16,
-    color : 'black',
-    paddingLeft: 15,
-    fontSize: 17,
-    fontFamily: 'Inter',
-  },
   content: {
     flex: 1,
     marginTop: -20,
     backgroundColor: '#f8f9fa',
-    zIndex : 1,
+    zIndex: 1,
   },
   section: {
     padding: 20,
@@ -456,7 +526,7 @@ const styles = StyleSheet.create({
   categoryItem: {
     alignItems: 'center',
     width: (width - 60) / 4,
-    backgroundColor : 'white',
+    backgroundColor: 'white',
     borderRadius: 20,
     width: 80,
     paddingBottom: 10,
@@ -529,37 +599,57 @@ const styles = StyleSheet.create({
     marginTop: 90,
   },
   visitedTitle: {
-    fontSize: 14,
+    fontSize: 20,
     fontWeight: '600',
     color: 'white',
     marginBottom: 4,
-    fontSize: 20,
   },
   locationInfo: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 2,
   },
   locationText: {
     fontSize: 14,
     color: 'white',
     marginLeft: 2,
   },
-  servicesContainer: {
-    flexDirection: 'row',
-  },
-  serviceButton: {
-    flexDirection: 'row',
+  // Nouveaux styles pour les états de chargement
+  loadingContainer: {
     alignItems: 'center',
-    backgroundColor: '#28068E',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    marginRight: 10,
+    padding: 20,
   },
-  serviceText: {
+  loadingText: {
+    marginTop: 10,
+    color: '#666',
+    fontSize: 16,
+  },
+  errorContainer: {
+    alignItems: 'center',
+    padding: 20,
+  },
+  errorText: {
+    color: '#ff4444',
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  retryButton: {
+    backgroundColor: '#28068E',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 8,
+  },
+  retryText: {
     color: 'white',
-    fontSize: 14,
-    marginLeft: 6,
+    fontWeight: 'bold',
+  },
+  noDataContainer: {
+    alignItems: 'center',
+    padding: 20,
+  },
+  noDataText: {
+    color: '#666',
+    fontSize: 16,
   },
   agenciesContainer: {
     flexDirection: 'row',

@@ -1,34 +1,107 @@
 import { React, useState } from 'react';
 import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity, Alert } from 'react-native';
 
-const App1 =  ({ navigation }) => {
+const App1 = ({ navigation }) => {
     const connexion = async () => {
-        if ((numero == '') || (mdp == '')) {
+        if ((username == '') || (password == '')) {
             alert('Entrer votre numéro de téléphone et/ou votre mot de passe.');
             return;
         }
 
         try {
-            const reponse = await fetch('http://10.0.2.2:5454/connexion', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    numero : numero,
-                    mdp : mdp
-                })
-            })
+            // URL de l'API selon le swagger
+            const apiUrl = 'http://agence-voyage.ddns.net/api/utilisateur/connexion';
+            
+            // Données à envoyer selon l'API
+            const authentificationData = {
+                username: username,  // L'API attend 'username'
+                password: password      // L'API attend 'password'
+            };
 
-            const resultat = await reponse.json();
-            if (resultat.result) {
-                setnumero('');
-                setmdp('');
-                navigation.navigate('App6', {nom_envoye : nom});
+            console.log('=== DEBUT DEBUG CONNEXION ===');
+            console.log('URL:', apiUrl);
+            console.log('Données envoyées:', authentificationData);
+            console.log('JSON stringifié:', JSON.stringify(authentificationData));
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'accept': '*/*',  // Exactement comme dans ta commande cURL
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(authentificationData)
+            });
+
+            console.log('Statut de la réponse:', response.status);
+            console.log('Headers de la réponse:', response.headers);
+
+            // Toujours lire la réponse comme texte d'abord pour debug
+            const responseText = await response.text();
+            console.log('Réponse brute du serveur:', responseText);
+
+            if (response.status == 200) {
+                // Essayer de parser en JSON
+                let userData;
+                try {
+                    userData = JSON.parse(responseText);
+                    console.log('Données utilisateur parsées:', userData);
+                } catch (parseError) {
+                    console.error('Erreur parsing JSON:', parseError);
+                    Alert.alert("Erreur", "Réponse invalide du serveur");
+                    return;
+                }
+
+                if (userData && userData.token) {
+                    // Connexion réussie
+                    console.log('Connexion réussie pour:', userData.username);
+                    
+                    // Réinitialisation des champs
+                    setusername('');
+                    setpassword('');
+                    
+                    // Navigation avec les données utilisateur
+                    navigation.navigate('App6', {
+                        nom_envoye: userData.first_name || userData.username,
+                        userData: userData,
+                        token: userData.token
+                    });
+                } else {
+                    console.log('Pas de token dans la réponse');
+                    Alert.alert("Erreur", "Réponse invalide du serveur");
+                }
             } else {
-                Alert.alert("Compte inexistant", "Votre compte n'existe pas")
+                // Cette API retourne 500 pour TOUTES les erreurs (mauvais design mais c'est comme ça)
+                console.log('=== ERREUR HTTP ===');
+                console.log('Status:', response.status);
+                console.log('Status Text:', response.statusText);
+                console.log('Response:', responseText);
+                
+                if (response.status === 500) {
+                    // Comme l'API retourne 500 pour tout, on suppose que c'est un problème d'authentification
+                    Alert.alert(
+                        "Connexion échouée", 
+                        "Vérifiez vos identifiants ou créez un compte.\n\n" +
+                        "Possibles causes :\n" +
+                        "• Numéro de téléphone incorrect\n" +
+                        "• Mot de passe incorrect\n" +
+                        "• Compte inexistant"
+                    );
+                } else {
+                    Alert.alert("Erreur serveur", `Erreur ${response.status}: ${response.statusText}`);
+                }
             }
-        } catch (e) {
-            console.error(e)
-            Alert.alert("Echec de connexion", "Connectez vous à internet")
+            console.log('=== FIN DEBUG CONNEXION ===');
+        } catch (error) {
+            console.error('=== ERREUR CATCH ===');
+            console.error('Type:', error.name);
+            console.error('Message:', error.message);
+            console.error('Stack:', error.stack);
+            
+            if (error.name === 'TypeError' && error.message.includes('Network request failed')) {
+                Alert.alert("Erreur de réseau", "Vérifiez votre connexion internet");
+            } else {
+                Alert.alert("Erreur", `Une erreur inattendue s'est produite: ${error.message}`);
+            }
         }
     }
 
@@ -36,89 +109,87 @@ const App1 =  ({ navigation }) => {
         Alert.alert('Pas encore disponible', 'Revenez plus tard')
     }
 
-    function mdpoublie() { 
-        setnumero('');
-        setmdp('');
+    function passwordoublie() { 
+        setusername('');
+        setpassword('');
         navigation.navigate('App3');
     }
 
     function enregistrer() {
-        setnumero('');
-        setmdp('');
+        setusername('');
+        setpassword('');
         navigation.navigate('App2');
     }
 
-    function voirMdp() {
-        global [visible_mdp, setvisible_mdp];
-        if (visible_mdp) setvisible_mdp(false);
-        else setvisible_mdp(true);
+    function voirpassword() {
+        if (visible_password) setvisible_password(false);
+        else setvisible_password(true);
     }
 
-    const [nom, setnom] = useState('');
     const [focus1, setfocus1] = useState(false);
     const [focus2, setfocus2] = useState(false);
-    const [visible_mdp, setvisible_mdp] = useState(true);
-    const [numero, setnumero] = useState('');
-    const [mdp, setmdp] = useState('');
+    const [visible_password, setvisible_password] = useState(true);
+    const [username, setusername] = useState('');
+    const [password, setpassword] = useState('');
 
     return (
-        <View style = {styles.container}>
-            <View style = {styles.container2}>
-                <Text style = {styles.texte}>Se connecter</Text>
+        <View style={styles.container}>
+            <View style={styles.container2}>
+                <Text style={styles.texte}>Se connecter</Text>
             </View>
-            <View style = {styles.container2}>
+            <View style={styles.container2}>
                 <Image
-                    source = {require('./images/safaraplace2.png')}
-                    style = {styles.image}
+                    source={require('./images/safaraplace2.png')}
+                    style={styles.image}
                 />
             </View>
-            <View style = {styles.container3}>
-                <Text style = {styles.texte1}>Entrer votre numéro de téléphone</Text>
+            <View style={styles.container3}>
+                <Text style={styles.texte1}>Entrer votre numéro de téléphone</Text>
                 <TextInput
-                    style = {focus1 ? styles.textinputfocus : styles.textinput}
-                    placeholder = 'Votre numéro de téléphone...'
-                    onFocus = {() => setfocus1(true)}
-                    onBlur = {() => setfocus1(false)}
-                    value = {numero}
-                    onChangeText = {setnumero}
+                    style={focus1 ? styles.textinputfocus : styles.textinput}
+                    placeholder='Votre numéro de téléphone...'
+                    onFocus={() => setfocus1(true)}
+                    onBlur={() => setfocus1(false)}
+                    value={username}
+                    onChangeText={setusername}
+                    keyboardType="phone-pad"
                 />
-                <Text style = {styles.texte1}>Entrer votre mot de passe</Text>
-                <TextInput style = {focus2 ? styles.textinputfocus : styles.textinput} 
-                    secureTextEntry = {visible_mdp}
-                    placeholder = 'Votre mot de passe...'
-                    onFocus = {() => setfocus2(true)}
-                    onBlur = {() => setfocus2(false)}
-                    value = {mdp}
-                    onChangeText = {setmdp}
-                    />
-                <TouchableOpacity style = {{marginTop: -30, alignSelf: 'flex-end', marginRight: 10,}} onPress = {(voirMdp)}>
-                <Image
-                    source = {require('./images/vue.png')}
+                <Text style={styles.texte1}>Entrer votre mot de passe</Text>
+                <TextInput 
+                    style={focus2 ? styles.textinputfocus : styles.textinput} 
+                    secureTextEntry={visible_password}
+                    placeholder='Votre mot de passe...'
+                    onFocus={() => setfocus2(true)}
+                    onBlur={() => setfocus2(false)}
+                    value={password}
+                    onChangeText={setpassword}
                 />
+                <TouchableOpacity style={{marginTop: -30, alignSelf: 'flex-end', marginRight: 10,}} onPress={voirpassword}>
+                    <Image source={require('./images/vue.png')} />
                 </TouchableOpacity>
-                <TouchableOpacity style = {{alignSelf : 'flex-end', paddingTop: 25}} onPress = {(mdpoublie)}>
-                    <Text style = {{color : '#28068E', paddingBottom: 5, fontFamily: "inter", fontSize: 13}}>Mot de passe oublié ?</Text>
+                <TouchableOpacity style={{alignSelf: 'flex-end', paddingTop: 25}} onPress={passwordoublie}>
+                    <Text style={{color: '#28068E', paddingBottom: 5, fontFamily: "inter", fontSize: 13}}>Mot de passe oublié ?</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style = {styles.button} onPress = {(connexion)}>
-                    <Text style = {{color : '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight : 'bold'}}>Se connecter</Text>
+                <TouchableOpacity style={styles.button} onPress={connexion}>
+                    <Text style={{color: '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight: 'bold'}}>Se connecter</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress = {(enregistrer)}>
-                    <Text style = {{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#28068E', fontWeight : 'bold'}}>Pas de compte ? Créez en un</Text>
+                <TouchableOpacity onPress={enregistrer}>
+                    <Text style={{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#28068E', fontWeight: 'bold'}}>Pas de compte ? Créez en un</Text>
                 </TouchableOpacity>
-                <Text style = {{alignSelf: 'center', paddingTop: 15, paddingBottom: 15,}} >ou</Text>
-                <TouchableOpacity style = {{borderWidth: 1, borderColor: '#D1D1D1' , borderRadius: 20, width : 300, alignSelf : 'center', flexDirection: 'row', height: 45}} onPress = {(google)}>
+                <Text style={{alignSelf: 'center', paddingTop: 15, paddingBottom: 15,}}>ou</Text>
+                <TouchableOpacity style={{borderWidth: 1, borderColor: '#D1D1D1', borderRadius: 20, width: 300, alignSelf: 'center', flexDirection: 'row', height: 45}} onPress={google}>
                     <Image
-                        source = {require('./images/google.png')}
-                        style = {{width : 25, height : 25, alignSelf: 'center', marginLeft: 60,}}
+                        source={require('./images/google.png')}
+                        style={{width: 25, height: 25, alignSelf: 'center', marginLeft: 60,}}
                     />
-                    <Text style = {{alignSelf: 'center', fontFamily: 'nunito', fontWeight: 'bold', color : 'black', marginLeft: 10}}>Continuer avec Google</Text>
+                    <Text style={{alignSelf: 'center', fontFamily: 'nunito', fontWeight: 'bold', color: 'black', marginLeft: 10}}>Continuer avec Google</Text>
                 </TouchableOpacity>
             </View>
         </View>
-        
     );
 };
 
+// Styles restent identiques
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -126,75 +197,75 @@ const styles = StyleSheet.create({
     },
   
     container1: {
-        flex : 0,
+        flex: 0,
         backgroundColor: '#ffffff',
     },
 
-    container2:{
+    container2: {
         flex: 0,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#ffffff',
-        marginTop : 50,
+        marginTop: 50,
     },
 
-    container3 : {
+    container3: {
         flex: 0,
-        width : 350,
-        height : 400,
-        marginTop : 20,
-        alignSelf : 'center',
+        width: 350,
+        height: 400,
+        marginTop: 20,
+        alignSelf: 'center',
         backgroundColor: '#ffffff',
     },
 
-    textinput : {
-        color : 'black',
-        borderColor : '#D1D1D1',
-        borderWidth : 1,
-        borderRadius : 15,
+    textinput: {
+        color: 'black',
+        borderColor: '#D1D1D1',
+        borderWidth: 1,
+        borderRadius: 15,
         paddingLeft: 10,
         paddingRight: 35,
         fontSize: 15,
-        fontFamily : "cambria",
+        fontFamily: "cambria",
     },
 
-    textinputfocus : {
-        borderColor : '#009dd1d6',
-        borderWidth : 1,
-        borderRadius : 15,
+    textinputfocus: {
+        borderColor: '#009dd1d6',
+        borderWidth: 1,
+        borderRadius: 15,
         paddingLeft: 10,
         paddingRight: 35,
         fontSize: 15,
-        fontFamily : "cambria",
+        fontFamily: "cambria",
     },
 
     texte: {
-        color : '#2A2A2A',
-        fontFamily : 'Inter',
-        fontSize : 18,
-        fontWeight : 'bold',
+        color: '#2A2A2A',
+        fontFamily: 'Inter',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 
     texte1: {
-        color : '#2A2A2A',
-        fontFamily : 'Inter',
-        fontSize : 14,
-        fontWeight : 'bold',
+        color: '#2A2A2A',
+        fontFamily: 'Inter',
+        fontSize: 14,
+        fontWeight: 'bold',
         paddingBottom: 10,
         paddingTop: 15,
     },
 
-    button : {
-        backgroundColor : '#28068E', // #582df3
-        height : 45,
+    button: {
+        backgroundColor: '#28068E',
+        height: 45,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 15,
     },
 
     image: {
-        width : 180,
-        height : 180,
+        width: 180,
+        height: 180,
     },
 });
 

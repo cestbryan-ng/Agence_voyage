@@ -1,14 +1,20 @@
 import { React, useEffect } from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 
-const App6 = ({ navigation }) => {
+const App6 = ({ navigation, route }) => {
     useEffect(() => {
         const temps = setTimeout(() => {
-            navigation.navigate('App8'); 
+            navigation.navigate('App8', {
+                        nom_envoye: nom_envoye,
+                        userData: userData,
+                        token: token
+                    }); 
         }, 4000);
 
         return () => clearTimeout(temps);
     }, []);
+
+    const { nom_envoye, userData, token } = route.params
 
     return (
         <View style = {styles.container}>
