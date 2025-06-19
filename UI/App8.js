@@ -127,6 +127,22 @@ const App8 = ({ navigation, route }) => {
     });
   }
 
+  const reservation = () => {
+    navigation.navigate('App14', {
+      token: token,
+      userData: userData,
+      nom_envoye: nom_envoye
+    });
+  };
+
+  const tickets = () => {
+    navigation.navigate('App15', {
+      token: token,
+      userData: userData,
+      nom_envoye: nom_envoye
+    });
+  };
+
   const toggleSideMenu = () => {
     setSideMenuVisible(!sideMenuVisible);
   };
@@ -246,7 +262,7 @@ const App8 = ({ navigation, route }) => {
                         <Text style={styles.categoryText}>Réserver</Text>
                     </TouchableOpacity>
             
-            <TouchableOpacity style={styles.categoryItem}>
+            <TouchableOpacity style={styles.categoryItem} onPress={(tickets)}>
               <View style={styles.categoryIcon}>
                 <FontAwesome name="ticket" size={35} color="#28068E" />
               </View>
@@ -349,19 +365,19 @@ const App8 = ({ navigation, route }) => {
           <Text style={[styles.bottomNavText, styles.bottomNavTextActive]}>Accueil</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.bottomNavItem}>
+        <TouchableOpacity style={styles.bottomNavItem} onPress={(tickets)}>
           <FontAwesome name="ticket" size={25} color="#666" />
           <Text style={styles.bottomNavText}>Tickets</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.bottomNavItem} onPress={(reservation)}>
+          <FontAwesome name="bus" size={25} color="#666" />
+          <Text style={styles.bottomNavText}>Reservations</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.bottomNavItem}>
           <FontAwesome name="bell-o" size={25} color="#666" />
           <Text style={styles.bottomNavText}>Notification</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity style={styles.bottomNavItem}>
-          <FontAwesome name="comment-o" size={25} color="#666" />
-          <Text style={styles.bottomNavText}>Messages</Text>
         </TouchableOpacity>
       </View>
 

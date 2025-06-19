@@ -26,6 +26,19 @@ const App10 = ({ navigation, route }) => {
   const { voyage, token, userData, nom_envoye } = route.params;
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [showSeatSelection, setShowSeatSelection] = useState(false);
+  const [nombreBagages, setNombreBagages] = useState(0); // État pour les bagages
+
+  // Fonction pour augmenter le nombre de bagages
+  const augmenterBagages = () => {
+    setNombreBagages(nombreBagages + 1);
+  };
+
+  // Fonction pour diminuer le nombre de bagages
+  const diminuerBagages = () => {
+    if (nombreBagages > 0) {
+      setNombreBagages(nombreBagages - 1);
+    }
+  };
 
   // Génération des sièges
   const generateSeats = () => {
@@ -175,6 +188,30 @@ const App10 = ({ navigation, route }) => {
               </View>
             </View>
 
+            {/* Bagages Section */}
+            <View style={styles.detailRow}>
+              <Icon name="luggage" size={20} color="#28068E" />
+              <View style={styles.detailContent}>
+                <Text style={styles.detailLabel}>Nombre de bagages</Text>
+                <View style={styles.bagageControls}>
+                  <TouchableOpacity 
+                    style={styles.bagageButton} 
+                    onPress={diminuerBagages}
+                    disabled={nombreBagages === 0}
+                  >
+                    <Icon name="remove" size={20} color={nombreBagages === 0 ? "#ccc" : "#28068E"} />
+                  </TouchableOpacity>
+                  <Text style={styles.bagageCount}>{nombreBagages}</Text>
+                  <TouchableOpacity 
+                    style={styles.bagageButton} 
+                    onPress={augmenterBagages}
+                  >
+                    <Icon name="add" size={20} color="#28068E" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+
             {/* Total Price */}
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Prix Total</Text>
@@ -187,10 +224,23 @@ const App10 = ({ navigation, route }) => {
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Place(s) selectionnée(s)</Text>
                 <Text style={styles.detailValue}>
-                  {selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None'}
+                  {selectedSeats.length > 0 ? selectedSeats.join(', ') : 'Aucune'}
                 </Text>
               </View>
             </View>
+
+            {/* Bagages Summary */}
+            {nombreBagages > 0 && (
+              <View style={styles.detailRow}>
+                <Icon name="work" size={20} color="#28068E" />
+                <View style={styles.detailContent}>
+                  <Text style={styles.detailLabel}>Résumé bagages</Text>
+                  <Text style={styles.detailValue}>
+                    {nombreBagages} bagage{nombreBagages > 1 ? 's' : ''}
+                  </Text>
+                </View>
+              </View>
+            )}
           </View>
 
           <TouchableOpacity style={styles.continueButton}>
@@ -300,6 +350,30 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     color: '#333',
+  },
+  // Styles pour les bagages
+  bagageControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  bagageButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#f0f0f0',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  bagageCount: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    marginHorizontal: 15,
+    minWidth: 30,
+    textAlign: 'center',
   },
   totalRow: {
     flexDirection: 'row',
