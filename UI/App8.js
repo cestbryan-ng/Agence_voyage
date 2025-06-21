@@ -119,6 +119,22 @@ const App8 = ({ navigation, route }) => {
     });
   };
 
+  const historique = () => {
+    navigation.navigate('App16', {
+      token: token,
+      userData: userData,
+      nom_envoye: nom_envoye
+    });
+  };
+
+  const coupon = () => {
+    navigation.navigate('App17', {
+      token: token,
+      userData: userData,
+      nom_envoye: nom_envoye
+    });
+  }
+
   function reserver() {
     navigation.navigate('App9', {
       token: token,
@@ -266,17 +282,17 @@ const App8 = ({ navigation, route }) => {
               <View style={styles.categoryIcon}>
                 <FontAwesome name="ticket" size={35} color="#28068E" />
               </View>
-              <Text style={styles.categoryText}>Mes tickets</Text>
+              <Text style={styles.categoryText}>Mes Billets</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.categoryItem}>
+            <TouchableOpacity style={styles.categoryItem} onPress={(coupon)}>
               <View style={styles.categoryIcon}>
                 <FontAwesome name="percent" size={35} color="#28068E" />
               </View>
               <Text style={styles.categoryText}>Promotion</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={styles.categoryItem}>
+            <TouchableOpacity style={styles.categoryItem} onPress={(historique)}>
               <View style={styles.categoryIcon}>
                 <FontAwesome name="history" size={35} color="#28068E" />
               </View>
@@ -322,15 +338,12 @@ const App8 = ({ navigation, route }) => {
         {/* Agences - Section inchangée */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Agences</Text>
-            <TouchableOpacity>
-              <Text style={styles.seeAllText}>Voir tout</Text>
-            </TouchableOpacity>
+            <Text style={styles.sectionTitle}>Agences partenaires</Text>
           </View>
           
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.agenciesContainer}>
-              <TouchableOpacity style={styles.agencyCard}>
+              <TouchableOpacity style={styles.agencyCard} disabled  = {true}>
                 <Image
                   source={require('./images/OIP.png')}
                   style={styles.agencyImage}
@@ -338,7 +351,7 @@ const App8 = ({ navigation, route }) => {
                 <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 15, marginTop: 80, alignSelf: 'center', paddingLeft: 5, paddingRight: 5, textAlign: 'center'}}>General Express Voyage</Text>
               </TouchableOpacity>
               
-              <TouchableOpacity style={styles.agencyCard}>
+              <TouchableOpacity style={styles.agencyCard} disabled  = {true}>
                 <Image
                   source={require('./images/777-2.png')}
                   style={styles.agencyImage}
@@ -346,12 +359,12 @@ const App8 = ({ navigation, route }) => {
                 <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 15, marginTop: 95, alignSelf: 'center', paddingLeft: 5, paddingRight: 5, textAlign: 'center'}}>Touristique Express</Text>
               </TouchableOpacity>
               
-              <TouchableOpacity style={styles.agencyCard}>
+              <TouchableOpacity style={styles.agencyCard} disabled  = {true}>
                 <Image
-                  source={require('./images/Blue-Bird-Express-1024x603.png')}
+                  source={require('./images/vatican.jpg')}
                   style={styles.agencyImage}
                 />
-                <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 15, marginTop: 95, alignSelf: 'center', paddingLeft: 5, paddingRight: 5, textAlign: 'center'}}>BlueBird</Text>
+                <Text style={{position: 'absolute', color: 'white', fontWeight: 'bold', fontSize: 15, marginTop: 95, alignSelf: 'center', paddingLeft: 5, paddingRight: 5, textAlign: 'center'}}>Vatican Express</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -367,7 +380,7 @@ const App8 = ({ navigation, route }) => {
         
         <TouchableOpacity style={styles.bottomNavItem} onPress={(tickets)}>
           <FontAwesome name="ticket" size={25} color="#666" />
-          <Text style={styles.bottomNavText}>Tickets</Text>
+          <Text style={styles.bottomNavText}>Billets</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.bottomNavItem} onPress={(reservation)}>

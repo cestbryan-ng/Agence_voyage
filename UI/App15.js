@@ -13,7 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const TicketsPage = ({ navigation, route }) => {
+const BilletsPage = ({ navigation, route }) => {
     const [tickets, setTickets] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -59,35 +59,46 @@ const TicketsPage = ({ navigation, route }) => {
             .substring(0, 2);
     };
 
-    // Fonction pour récupérer les tickets depuis l'API
-    const fetchTickets = async () => {
+    // Fonction pour récupérer les tickets depuis l'API des réservations
+    const fetchTickets = async (page = 0, size = 20) => {
         try {
             setLoading(true);
             
             // Utiliser l'ID utilisateur depuis userData
             const userId = userData?.userId || '3fa85f64-5717-4562-b3fc-2c963f66afa6';
             
-            const response = await fetch(`http://agence-voyage.ddns.net/api/utilisateur/billet/${userId}`, {
+            const response = await fetch(`http://agence-voyage.ddns.net/api/reservation/utilisateur/${userId}?page=${page}&size=${size}`, {
                 method: 'GET',
                 headers: {
                     'accept': 'application/json',
+                    'Authorization': 'Bearer ' + token,
                 },
             });
 
-            if (response.ok) {
+            if (response.status == 200) {
                 const data = await response.json();
-                
-                // L'API retourne un objet unique, on le met dans un tableau pour l'affichage
-                setTickets(Array.isArray(data) ? data : [data]);
+                if (Array.isArray(data.content)) {
+                    // Filtrer pour ne garder que les réservations payées (billets)
+                    const paidReservations = data.content.filter(item => 
+                        item.reservation.statutPayement === 'PAID'
+                    );
+                    
+                    setTickets(paidReservations);
+                } else {
+                    setTickets([]);
+                }
+
+            } else if(response.status == 400) {
+                setTickets([]);
             } else {
                 throw new Error(`Erreur HTTP: ${response.status}`);
             }
 
         } catch (error) {
-            console.error('Erreur lors de la récupération des tickets:', error);
+            console.error('Erreur lors de la récupération des billets:', error);
             Alert.alert(
                 'Erreur', 
-                'Impossible de charger vos tickets.'
+                'Impossible de charger vos billets.'
             );
         } finally {
             setLoading(false);
@@ -96,20 +107,21 @@ const TicketsPage = ({ navigation, route }) => {
 
     // Charger les tickets au montage du composant
     useEffect(() => {
-        fetchTickets();
+        fetchTickets(0, 20);
     }, []);
 
     const getStatusColor = (status) => {
         switch (status) {
-            case 'EN_ATTENTE':
+            case 'RESERVER':
                 return '#F59E0B';
-            case 'CONFIRME':
-                return '#10B981';
-            case 'ANNULE':
-                return '#EF4444';
             default:
                 return '#6B7280';
         }
+    };
+
+    const formatTime = (timeString) => {
+        if (!timeString) return 'Heure non définie';
+        return timeString.slice(timeString.indexOf('T') + 1, timeString.indexOf('M'));
     };
 
     const TicketCard = ({ item, index }) => (
@@ -118,85 +130,77 @@ const TicketsPage = ({ navigation, route }) => {
                 <View style={styles.agencyInfo}>
                     <View style={styles.agencyInitials}>
                         <Text style={styles.initialsText}>
-                            {getInitials(item.nomAgence || 'AG')}
+                            {getInitials(item.agence?.shortName || item.agence?.longName || 'AG')}
                         </Text>
                     </View>
                     <View style={styles.agencyDetails}>
                         <Text style={styles.agencyName}>
-                            {item.nomAgence || 'Agence inconnue'}
+                            {item.agence?.longName || 'Agence inconnue'}
                         </Text>
                         <Text style={styles.ticketClass}>
-                            Classe {item.nomClasseVoyage || 'Standard'}
+                            Billet confirmé • Payé
                         </Text>
                     </View>
                 </View>
                 <View style={styles.priceSection}>
-                    <Text style={styles.price}>{item.prix?.toLocaleString() || '0'} FCFA</Text>
+                    <Text style={styles.price}>{item.reservation.prixTotal?.toLocaleString() || '0'} FCFA</Text>
                     <Text style={styles.seatNumber}>
-                        Place {item.placeChoisis || 'N/A'}
+                        {item.reservation.nbrPassager} passager{item.reservation.nbrPassager > 1 ? 's' : ''}
                     </Text>
                 </View>
             </View>
             
             <View style={styles.journeyInfo}>
                 <Text style={styles.journeyText}>
-                    {item.lieuDepart || 'Départ'} → {item.lieuArrive || 'Arrivée'}
+                    De {item.voyage.lieuDepart || 'Départ'} à {item.voyage.lieuArrive || 'Arrivée'}
                 </Text>
                 <View style={styles.journeyDetails}>
                     <Text style={styles.journeyDate}>
-                        Départ prévu: {formatDate(item.dateDepartPrev)}
+                        Départ prévu: {formatDate(item.voyage.dateDepartPrev)}
                     </Text>
-                    {item.dateDepartEffectif && (
+                    {item.voyage.dateDepartEffectif && (
                         <Text style={styles.journeyDate}>
-                            Départ effectif: {formatDate(item.dateDepartEffectif)}
+                            Départ effectif: {formatDate(item.voyage.dateDepartEffectif)}
                         </Text>
                     )}
+                    <Text style = {styles.journeyDate}>
+                        Destination de départ : {item.voyage.pointDeDepart}
+                    </Text>
+                    <Text style = {styles.journeyDate}>
+                        Destination d'arrivée : {item.voyage.pointArrivee}
+                    </Text>
+                    <Text style = {styles.journeyDate}>
+                        Durée approximative du voyage : {formatTime(item.voyage.dureeVoyage)}
+                    </Text>                  
                 </View>
             </View>
 
-            {/* Informations passager */}
+            {/* Informations ticket */}
             <View style={styles.passengerInfo}>
-                <Text style={styles.passengerTitle}>Informations passager</Text>
+                <Text style={styles.passengerTitle}>Informations du billet</Text>
                 <View style={styles.passengerDetails}>
                     <Text style={styles.passengerText}>
-                        <Text style={styles.label}>Nom:</Text> {item.nom || 'N/A'}
+                        <Text style={styles.label}>Code de réservation:</Text> {item.reservation.transactionCode || 'N/A'}
                     </Text>
-                    <Text style={styles.passengerText}>
-                        <Text style={styles.label}>Genre:</Text> {item.genre || 'N/A'}
-                    </Text>
-                    <Text style={styles.passengerText}>
-                        <Text style={styles.label}>Âge:</Text> {item.age || 'N/A'} ans
-                    </Text>
-                    <Text style={styles.passengerText}>
-                        <Text style={styles.label}>Pièce d'identité:</Text> {item.numeroPieceIdentific || 'N/A'}
-                    </Text>
-                    {item.nbrBaggage > 0 && (
+                    {item.reservation.dateConfirmation && (
                         <Text style={styles.passengerText}>
-                            <Text style={styles.label}>Bagages:</Text> {item.nbrBaggage}
+                            <Text style={styles.label}>Date de confirmation:</Text> {formatDate(item.reservation.dateConfirmation)}
                         </Text>
                     )}
-                </View>
-            </View>
-
-            <View style={styles.statusRow}>
-                <View style={[styles.statusBadge, { backgroundColor: getStatusColor(item.statusVoyage) }]}>
-                    <Text style={styles.statusText}>{item.statusVoyage || 'EN_ATTENTE'}</Text>
-                </View>
-                {item.pointDeDepart && (
-                    <Text style={styles.pointInfo}>
-                        Point départ: {item.pointDeDepart}
+                    <Text style={styles.passengerText}>
+                        <Text style={styles.label}>Montant payé:</Text> {item.reservation.montantPaye?.toLocaleString() || '0'} FCFA
                     </Text>
-                )}
+                </View>
             </View>
             
-            {item.titre && (
+            {item.voyage.titre && (
                 <View style={styles.cardFooter}>
                     <Text style={styles.ticketTitle}>
-                        {item.titre}
+                        {item.voyage.titre}
                     </Text>
-                    {item.description && (
+                    {item.voyage.description && (
                         <Text style={styles.ticketDescription}>
-                            {item.description}
+                            {item.voyage.description}
                         </Text>
                     )}
                 </View>
@@ -210,10 +214,10 @@ const TicketsPage = ({ navigation, route }) => {
             
             {/* Header */}
             <View style={styles.header}>
-                <Text style={styles.headerTitle}>Mes Tickets</Text>
+                <Text style={styles.headerTitle}>Mes Billets</Text>
                 <TouchableOpacity 
                     style={styles.refreshButton} 
-                    onPress={fetchTickets}
+                    onPress={() => fetchTickets(0, 20)}
                 >
                     <Text style={styles.refreshText}>↻</Text>
                 </TouchableOpacity>
@@ -223,7 +227,7 @@ const TicketsPage = ({ navigation, route }) => {
                 {/* Stats */}
                 <View style={styles.statsContainer}>
                     <Text style={styles.statsText}>
-                        {tickets.length} ticket{tickets.length > 1 ? 's' : ''} trouvé{tickets.length > 1 ? 's' : ''}
+                        {tickets.length} billet{tickets.length > 1 ? 's' : ''} trouvé{tickets.length > 1 ? 's' : ''}
                     </Text>
                 </View>
 
@@ -231,23 +235,23 @@ const TicketsPage = ({ navigation, route }) => {
                 {loading ? (
                     <View style={styles.loadingContainer}>
                         <ActivityIndicator size="large" color="#28068E" />
-                        <Text style={styles.loadingText}>Chargement de vos tickets...</Text>
+                        <Text style={styles.loadingText}>Chargement de vos billets...</Text>
                     </View>
                 ) : (
                     /* Tickets list */
                     <View style={styles.ticketsList}>
                         {tickets.length > 0 ? (
                             tickets.map((item, index) => (
-                                <TicketCard key={index} item={item} index={index} />
+                                <TicketCard key={item.reservation.idReservation || index} item={item} index={index} />
                             ))
                         ) : (
                             <View style={styles.noTicketsContainer}>
                                 <Icon name="confirmation-number" size={64} color="#ccc" />
                                 <Text style={styles.noTicketsText}>
-                                    Aucun ticket trouvé
+                                    Aucun billet trouvé
                                 </Text>
                                 <Text style={styles.noTicketsSubtext}>
-                                    Vos tickets apparaîtront ici une fois générés
+                                    Vos billets apparaîtront ici une fois vos réservations payées
                                 </Text>
                             </View>
                         )}
@@ -264,7 +268,7 @@ const TicketsPage = ({ navigation, route }) => {
                 
                 <TouchableOpacity style={styles.bottomNavItem} disabled={true}>
                     <FontAwesome name="ticket" size={25} color="#28068E" />
-                    <Text style={[styles.bottomNavText, styles.bottomNavTextActive]}>Tickets</Text>
+                    <Text style={[styles.bottomNavText, styles.bottomNavTextActive]}>Billets</Text>
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.bottomNavItem} onPress={navigateToReservations}>
@@ -492,10 +496,16 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: '600',
     },
-    pointInfo: {
-        fontSize: 12,
-        color: '#666',
-        flex: 1,
+    paymentBadge: {
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 12,
+        marginLeft: 10,
+    },
+    paymentText: {
+        fontSize: 11,
+        color: 'white',
+        fontWeight: '600',
     },
     cardFooter: {
         borderTopWidth: 1,
@@ -538,4 +548,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default TicketsPage;
+export default BilletsPage;

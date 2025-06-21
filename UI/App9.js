@@ -51,55 +51,18 @@ const App9 = ({ navigation, route }) => {
         <Text style={styles.headerTitle}>Reservation</Text>
         <View style={styles.placeholder} />
       </View>
-
-      {/* Tab Selection */}
-      <View style={styles.tabContainer}>
-        <View style={styles.tabWrapper}>
-          <TouchableOpacity 
-            style={[styles.tab, selectedTab === 'Voyage' && styles.activeTab]}
-            onPress={() => setSelectedTab('Voyage')}
-          >
-            <Text style={styles.tabIcon}>🚌</Text>
-            <Text style={[styles.tabText, selectedTab === 'Voyage' && styles.activeTabText]}>
-              Voyage
-            </Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={[styles.tab, selectedTab === 'Location Bus' && styles.activeTab]}
-            onPress={() => setSelectedTab('Location Bus')}
-          >
-            <Text style={styles.tabIcon}>🚐</Text>
-            <Text style={[styles.tabText, selectedTab === 'Location Bus' && styles.activeTabText]}>
-              Location Bus
-            </Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity 
-            style={[styles.tab, selectedTab === 'Chauffeur' && styles.activeTab]}
-            onPress={() => setSelectedTab('Chauffeur')}
-          >
-            <Text style={styles.tabIcon}>👤</Text>
-            <Text style={[styles.tabText, selectedTab === 'Chauffeur' && styles.activeTabText]}>
-              Chauffeur
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Form Section */}
         <View style={styles.formSection}>
           {/* Departure */}
           <View style={styles.inputGroup}>
             <View style={styles.labelContainer}>
-              <View style={styles.redDot} />
-              <Text style={styles.inputLabel}>Départ</Text>
+              <Text style={styles.inputLabel}>Départ *</Text>
             </View>
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.textInput}
-                placeholder="Ville de depart"
+                placeholder="Ville de depart..."
                 value={departure}
                 onChangeText={setDeparture}
                 placeholderTextColor="#999"
@@ -110,13 +73,12 @@ const App9 = ({ navigation, route }) => {
           {/* Destination */}
           <View style={styles.inputGroup}>
             <View style={styles.labelContainer}>
-              <View style={styles.redDot} />
-              <Text style={styles.inputLabel}>Destination</Text>
+              <Text style={styles.inputLabel}>Destination *</Text>
             </View>
             <View style={styles.inputContainer}>
               <TextInput
                 style={styles.textInput}
-                placeholder="Ville d'arrivee"
+                placeholder="Ville d'arrivee..."
                 value={destination}
                 onChangeText={setDestination}
                 placeholderTextColor="#999"
@@ -257,7 +219,7 @@ const styles = StyleSheet.create({
   },
   inputLabel: {
     fontSize: 14,
-    fontWeight: '500',
+    fontWeight: '900',
     color: '#666',
   },
   calendarIcon: {
