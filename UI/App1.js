@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 
 const App1 = ({ navigation }) => {
     const connexion = async () => {
@@ -9,6 +9,7 @@ const App1 = ({ navigation }) => {
         }
 
         try {
+            setLoading(true);
             // URL de l'API selon le swagger
             const apiUrl = 'http://agence-voyage.ddns.net/api/utilisateur/connexion';
             
@@ -100,6 +101,8 @@ const App1 = ({ navigation }) => {
             } else {
                 Alert.alert("Erreur", `Une erreur inattendue s'est produite: ${error.message}`);
             }
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -129,6 +132,7 @@ const App1 = ({ navigation }) => {
     const [visible_password, setvisible_password] = useState(true);
     const [username, setusername] = useState('');
     const [password, setpassword] = useState('');
+    const [loading, setLoading] = useState(false);
 
     return (
         <View style={styles.container}>
@@ -168,9 +172,14 @@ const App1 = ({ navigation }) => {
                 <TouchableOpacity style={{alignSelf: 'flex-end', paddingTop: 25}} onPress={passwordoublie}>
                     <Text style={{color: '#28068E', paddingBottom: 5, fontFamily: "inter", fontSize: 13}}>Mot de passe oublié ?</Text>
                 </TouchableOpacity>
+                {loading ? (
+                    <View style={styles.loadingContainer}>
+                        <ActivityIndicator size="large" color="#28068E" />
+                    </View>
+                ) : (
                 <TouchableOpacity style={styles.button} onPress={connexion}>
                     <Text style={{color: '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight: 'bold'}}>Se connecter</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>)}
                 <TouchableOpacity onPress={enregistrer}>
                     <Text style={{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#28068E', fontWeight: 'bold'}}>Pas de compte ? Créez en un</Text>
                 </TouchableOpacity>

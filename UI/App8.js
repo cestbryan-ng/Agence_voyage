@@ -11,7 +11,8 @@ import {
   ImageBackground,
   Animated,
   Modal,
-  ActivityIndicator
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -157,6 +158,10 @@ const App8 = ({ navigation, route }) => {
       userData: userData,
       nom_envoye: nom_envoye
     });
+  };
+
+  const notif = () => {
+    Alert.alert('Erreur','Bientôt dipsonible');
   };
 
   const toggleSideMenu = () => {
@@ -388,7 +393,7 @@ const App8 = ({ navigation, route }) => {
           <Text style={styles.bottomNavText}>Reservations</Text>
         </TouchableOpacity>
         
-        <TouchableOpacity style={styles.bottomNavItem}>
+        <TouchableOpacity style={styles.bottomNavItem} onPress={(notif)}>
           <FontAwesome name="bell-o" size={25} color="#666" />
           <Text style={styles.bottomNavText}>Notification</Text>
         </TouchableOpacity>

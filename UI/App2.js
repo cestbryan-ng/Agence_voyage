@@ -34,6 +34,7 @@ const App2 = ({ navigation }) => {
         }
 
         try {
+            setLoading(true);
             // URL de l'API réelle
             const apiUrl = 'http://agence-voyage.ddns.net/api/utilisateur/inscription';
             
@@ -92,11 +93,6 @@ const App2 = ({ navigation }) => {
                     ]
                 );
             } else {
-                // Erreur d'inscription
-                console.log('=== ERREUR INSCRIPTION ===');
-                console.log('Status:', reponse.status);
-                console.log('Response:', responseText);
-
                 if (reponse.status === 409) {
                     Alert.alert(
                         "Erreur d'inscription", 
@@ -109,17 +105,14 @@ const App2 = ({ navigation }) => {
                     Alert.alert("Erreur serveur", `Erreur ${reponse.status}`);
                 }
             } 
-            console.log('=== FIN INSCRIPTION ===');
         } catch (e) {
-            console.error('=== ERREUR CATCH INSCRIPTION ===');
-            console.error('Type:', e.name);
-            console.error('Message:', e.message);
-            
             if (e.name === 'TypeError' && e.message.includes('Network request failed')) {
                 Alert.alert("Erreur de réseau", "Vérifiez votre connexion internet");
             } else {
                 Alert.alert("Erreur", `Une erreur inattendue s'est produite: ${e.message}`);
             }
+        } finally {
+            setLoading(false);
         }
     }
 
@@ -141,6 +134,7 @@ const App2 = ({ navigation }) => {
     const [mdp, setmdp] = useState('');
     const [mdp2, setmdp2] = useState('');
     const [genre, setgenre] = useState('MALE');
+    const [loading, setLoading] = useState(false);
 
     // États pour les focus
     const [focus1, setfocus1] = useState(false);
@@ -272,11 +266,16 @@ const App2 = ({ navigation }) => {
                 </TouchableOpacity>
 
                 {/* Bouton d'inscription */}
+                {loading ? (
+                    <View style={styles.loadingContainer}>
+                        <ActivityIndicator size="large" color="#28068E" />
+                    </View>
+                ) : (
                 <TouchableOpacity style={styles.button} onPress={enregistrer}>
                     <Text style={{color: '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight: 'bold'}}>
                         Enregistrer
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity>)}
 
                 {/* Lien retour connexion */}
                 <TouchableOpacity onPress={retour}>

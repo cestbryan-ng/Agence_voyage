@@ -37,6 +37,10 @@ const BilletsPage = ({ navigation, route }) => {
         });
     };
 
+    const notif = () => {
+        Alert.alert('Erreur','Bientôt dipsonible');
+    };
+
     // Fonction pour formater la date
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -276,7 +280,7 @@ const BilletsPage = ({ navigation, route }) => {
                     <Text style={styles.bottomNavText}>Reservations</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.bottomNavItem}>
+                <TouchableOpacity style={styles.bottomNavItem} onPress={(notif)}>
                     <FontAwesome name="bell-o" size={25} color="#666" />
                     <Text style={styles.bottomNavText}>Notification</Text>
                 </TouchableOpacity>

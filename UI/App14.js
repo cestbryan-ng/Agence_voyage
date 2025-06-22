@@ -91,6 +91,10 @@ const ReservationsPage = ({ navigation, route }) => {
         });
     };
 
+    const notif = () => {
+        Alert.alert('Erreur','Bientôt dipsonible');
+    };
+
     // Fonction pour récupérer les réservations depuis l'API
     const fetchReservations = async (page = 0, size = 10) => {
         try {
@@ -212,7 +216,7 @@ const ReservationsPage = ({ navigation, route }) => {
             }
         } catch (error) {
             console.error('Erreur paiement:', error);
-            Alert.alert('Erreur', 'Erreur lors du paiement. Veuillez réessayer.');
+            Alert.alert('Erreur', 'Le service de paiement sera bientôt disponible');
         } finally {
             setPaymentLoading(false);
         }
@@ -276,7 +280,7 @@ const ReservationsPage = ({ navigation, route }) => {
             }
         } catch (error) {
             console.error('Erreur annulation:', error);
-            Alert.alert('Erreur', 'Erreur lors de l\'annulation.');
+            Alert.alert('Erreur', 'Le service d\'annulation sera bientôt disponible.');
         } finally {
             setCancelLoading(false);
         }
@@ -356,15 +360,6 @@ const ReservationsPage = ({ navigation, route }) => {
                 <Text style = {styles.journeyDate}>
                     Durée approximative du voyage : {formatTime(item.voyage.dureeVoyage)}
                 </Text>   
-            </View>
-
-            <View style={styles.statusRow}>
-                <View style={[styles.statusBadge, { backgroundColor: getStatusColor(item.reservation.statutReservation) }]}>
-                    <Text style={styles.statusText}>{item.reservation.statutReservation}</Text>
-                </View>
-                <View style={[styles.paymentBadge, { backgroundColor: getPaymentStatusColor(item.reservation.statutPayement) }]}>
-                    <Text style={styles.paymentText}>{item.reservation.statutPayement}</Text>
-                </View>
             </View>
 
             <Text style={styles.transactionCode}>
@@ -461,7 +456,7 @@ const ReservationsPage = ({ navigation, route }) => {
                     <Text style={[styles.bottomNavText, styles.bottomNavTextActive]}>Reservations</Text>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.bottomNavItem}>
+                <TouchableOpacity style={styles.bottomNavItem} onPress={(notif)}>
                     <FontAwesome name="bell-o" size={25} color="#666" />
                     <Text style={styles.bottomNavText}>Notification</Text>
                 </TouchableOpacity>
