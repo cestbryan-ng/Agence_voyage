@@ -205,7 +205,7 @@ const SearchResultsWithCriteria = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="light-content" backgroundColor="#28068E" />
+            <StatusBar barStyle="light-content" backgroundColor="#3B82F6" />
             
             {/* Header */}
             <View style={styles.header}>
@@ -259,7 +259,7 @@ const SearchResultsWithCriteria = ({ navigation, route }) => {
                 {/* Loading indicator */}
                 {loading ? (
                     <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color="#28068E" />
+                        <ActivityIndicator size="large" color="#3B82F6" />
                         <Text style={styles.loadingText}>Recherche en cours...</Text>
                     </View>
                 ) : (
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     header: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         paddingVertical: 15,
         paddingHorizontal: 20,
         flexDirection: 'row',
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
     },
     refreshText: {
         marginTop: -5,
-        color: '#28068E',
+        color: '#3B82F6',
         fontSize: 25,
         fontWeight: 'bold',
     },
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
     criteriaText: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#28068E',
+        color: '#3B82F6',
     },
     filtersContainer: {
         padding: 20,
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#e0e0e0',
     },
     filterButtonSelected: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
     },
     filterButtonText: {
         color: '#666',
@@ -436,7 +436,7 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     modifySearchButton: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         paddingHorizontal: 24,
         paddingVertical: 12,
         borderRadius: 6,
@@ -475,7 +475,7 @@ const styles = StyleSheet.create({
         width: 45,
         height: 45,
         borderRadius: 8,
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 12,
@@ -523,7 +523,7 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#28068E',
+        color: '#3B82F6',
         marginBottom: 3,
     },
     perPerson: {
@@ -570,7 +570,7 @@ const styles = StyleSheet.create({
         color: '#666',
     },
     reserveButton: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         paddingHorizontal: 24,
         paddingVertical: 10,
         borderRadius: 6,

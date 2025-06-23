@@ -41,7 +41,7 @@ const App9 = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#28068E" />
+      <StatusBar barStyle="light-content" backgroundColor="#3B82F6" />
       
       {/* Header */}
       <View style={styles.header}>
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9fa',
   },
   header: {
-    backgroundColor: '#28068E',
+    backgroundColor: '#3B82F6',
     paddingTop: 20,
     paddingBottom: 20,
     paddingHorizontal: 20,
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     width: 40,
   },
   tabContainer: {
-    backgroundColor: '#28068E',
+    backgroundColor: '#3B82F6',
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   searchButton: {
-    backgroundColor: '#28068E',
+    backgroundColor: '#3B82F6',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

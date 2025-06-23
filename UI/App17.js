@@ -270,12 +270,12 @@ const CouponsPage = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="light-content" backgroundColor="#28068E" />
+            <StatusBar barStyle="light-content" backgroundColor="#3B82F6" />
             
             {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity style={styles.backButton} onPress={retour}>
-                    <Icon name="arrow-back" size={20} color="#28068E" />
+                    <Icon name="arrow-back" size={20} color="#3B82F6" />
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>Mes Coupons</Text>
                 <TouchableOpacity 
@@ -293,7 +293,7 @@ const CouponsPage = ({ navigation, route }) => {
                     <RefreshControl
                         refreshing={refreshing}
                         onRefresh={onRefresh}
-                        colors={['#28068E']}
+                        colors={['#3B82F6']}
                     />
                 }
             >
@@ -312,7 +312,7 @@ const CouponsPage = ({ navigation, route }) => {
                 {/* Loading indicator */}
                 {loading ? (
                     <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color="#28068E" />
+                        <ActivityIndicator size="large" color="#3B82F6" />
                         <Text style={styles.loadingText}>Chargement de vos coupons...</Text>
                     </View>
                 ) : (
@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     header: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         paddingVertical: 15,
         paddingHorizontal: 20,
         flexDirection: 'row',
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
     },
     refreshText: {
         marginTop: -5,
-        color: '#28068E',
+        color: '#3B82F6',
         fontSize: 25,
         fontWeight: 'bold',
     },
@@ -482,7 +482,7 @@ const styles = StyleSheet.create({
     couponValueText: {
         fontSize: 28,
         fontWeight: 'bold',
-        color: '#28068E',
+        color: '#3B82F6',
         marginBottom: 2,
     },
     couponValueLabel: {
@@ -536,7 +536,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     useCouponButton: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 12,
@@ -585,7 +585,7 @@ const styles = StyleSheet.create({
         marginTop: 4,
     },
     bottomNavTextActive: {
-        color: '#28068E',
+        color: '#3B82F6',
     },
 });
 

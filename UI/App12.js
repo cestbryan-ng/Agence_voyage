@@ -150,7 +150,7 @@ const SearchResultsPage = ({ navigation, route }) => {
                     <Text style={styles.price}>{item.prix.toLocaleString()} F</Text>
                     <Text style={styles.perPerson}>par personne</Text>
                     <Text style={styles.fromLocation}>De : {item.lieuDepart}</Text>
-                    <Text style={styles.toLocation}>Allant à : {item.lieuArrive}</Text>
+                    <Text style={styles.toLocation}>A : {item.lieuArrive}</Text>
                 </View>
             </View>
             
@@ -178,7 +178,7 @@ const SearchResultsPage = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="light-content" backgroundColor="#28068E" />
+            <StatusBar barStyle="light-content" backgroundColor="#3B82F6" />
             
             {/* Header */}
             <View style={styles.header}>
@@ -222,7 +222,7 @@ const SearchResultsPage = ({ navigation, route }) => {
                 {/* Loading indicator */}
                 {loading ? (
                     <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color="#28068E" />
+                        <ActivityIndicator size="large" color="#3B82F6" />
                         <Text style={styles.loadingText}>Chargement des voyages...</Text>
                     </View>
                 ) : (
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     header: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         paddingVertical: 15,
         paddingHorizontal: 20,
         flexDirection: 'row',
@@ -296,9 +296,9 @@ const styles = StyleSheet.create({
     },
     refreshText: {
         marginTop: -5,
-        color: '#28068E',
+        color: '#3B82F6',
         fontSize: 25,
-        fontWeight: 'bold',
+        fontWeight: '600',
     },
     content: {
         flex: 1,
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         marginBottom: 12,
-        color: '#333',
+        color: '#000000',
     },
     filtersRow: {
         flexDirection: 'row',
@@ -325,15 +325,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#e0e0e0',
     },
     filterButtonSelected: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
     },
     filterButtonText: {
-        color: '#666',
+        color: '#000000',
         fontSize: 14,
         fontWeight: '500',
     },
     filterButtonTextSelected: {
         color: 'white',
+        fontWeight : '600',
     },
     statsContainer: {
         paddingHorizontal: 20,
@@ -341,8 +342,9 @@ const styles = StyleSheet.create({
     },
     statsText: {
         fontSize: 14,
-        color: '#666',
+        color: '#000000',
         fontStyle: 'italic',
+        fontWeight : '600',
     },
     loadingContainer: {
         flex: 1,
@@ -353,7 +355,8 @@ const styles = StyleSheet.create({
     loadingText: {
         marginTop: 10,
         fontSize: 16,
-        color: '#666',
+        color: '#000000',
+        fontWeight : '600',
     },
     noResultsContainer: {
         flex: 1,
@@ -363,12 +366,13 @@ const styles = StyleSheet.create({
     },
     noResultsText: {
         fontSize: 16,
-        color: '#666',
+        color: '#000000',
         textAlign: 'center',
         marginBottom: 20,
+        fontWeight : '600',
     },
     resetFilterButton: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         paddingHorizontal: 20,
         paddingVertical: 10,
         borderRadius: 6,
@@ -407,14 +411,14 @@ const styles = StyleSheet.create({
         width: 45,
         height: 45,
         borderRadius: 8,
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 12,
     },
     initialsText: {
         color: 'white',
-        fontWeight: 'bold',
+        fontWeight: '600',
         fontSize: 16,
     },
     companyDetails: {
@@ -428,8 +432,9 @@ const styles = StyleSheet.create({
     },
     fromLocation: {
         fontSize: 13,
-        color: '#666',
+        color: '#000000',
         marginBottom: 8,
+        fontWeight : '600',
     },
     typeTag: {
         paddingHorizontal: 10,
@@ -455,17 +460,19 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#28068E',
+        color: '#3B82F6',
         marginBottom: 3,
     },
     perPerson: {
         fontSize: 11,
-        color: '#666',
+        color: '#000000',
         marginBottom: 10,
+        fontWeight : '600',
     },
     toLocation: {
         fontSize: 13,
-        color: '#666',
+        color: '#000000',
+        fontWeight : '600',
     },
     journeyLine: {
         flexDirection: 'row',
@@ -498,11 +505,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     availableSeats: {
-        fontSize: 13,
-        color: '#666',
+        fontSize: 15,
+        color: '#000000',
+        fontWeight : '600',
     },
     reserveButton: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         paddingHorizontal: 24,
         paddingVertical: 10,
         borderRadius: 6,

@@ -268,7 +268,7 @@ const App2 = ({ navigation }) => {
                 {/* Bouton d'inscription */}
                 {loading ? (
                     <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color="#28068E" />
+                        <ActivityIndicator size="large" color="#3B82F6" />
                     </View>
                 ) : (
                 <TouchableOpacity style={styles.button} onPress={enregistrer}>
@@ -279,7 +279,7 @@ const App2 = ({ navigation }) => {
 
                 {/* Lien retour connexion */}
                 <TouchableOpacity onPress={retour}>
-                    <Text style={{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#28068E', fontWeight: 'bold'}}>
+                    <Text style={{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#3B82F6', fontWeight: 'bold'}}>
                         Vous avez déjà un compte ? Se connecter
                     </Text>
                 </TouchableOpacity>
@@ -358,7 +358,7 @@ const styles = StyleSheet.create({
     },
 
     genderSelected: {
-        borderColor: '#28068E',
+        borderColor: '#3B82F6',
         backgroundColor: '#f0f0ff',
     },
 
@@ -369,7 +369,7 @@ const styles = StyleSheet.create({
     },
 
     genderTextSelected: {
-        color: '#28068E',
+        color: '#3B82F6',
         fontWeight: 'bold',
     },
 
@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         height: 45,
         justifyContent: 'center',
         alignItems: 'center',

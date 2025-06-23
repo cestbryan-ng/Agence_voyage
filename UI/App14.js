@@ -298,7 +298,7 @@ const ReservationsPage = ({ navigation, route }) => {
             case 'RESERVER':
                 return '#F59E0B';
             case 'ANNULER':
-                return '#EF4444';
+                return '#ffffff';
             default:
                 return '#6B7280';
         }
@@ -372,7 +372,7 @@ const ReservationsPage = ({ navigation, route }) => {
                         style={styles.payButton} 
                         onPress={() => ouvrirModalPaiement(item)}
                     >
-                        <Icon name="payment" size={25} color="white" />
+                        <Icon name="payment" size={25} color="#3B82F6" />
                         <Text style={styles.payButtonText}>Payer</Text>
                     </TouchableOpacity>
                 )}
@@ -390,7 +390,7 @@ const ReservationsPage = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="light-content" backgroundColor="#28068E" />
+            <StatusBar barStyle="light-content" backgroundColor="#3B82F6" />
             
             {/* Header */}
             <View style={styles.header}>
@@ -414,7 +414,7 @@ const ReservationsPage = ({ navigation, route }) => {
                 {/* Loading indicator */}
                 {loading ? (
                     <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color="#28068E" />
+                        <ActivityIndicator size="large" color="#3B82F6" />
                         <Text style={styles.loadingText}>Chargement de vos réservations...</Text>
                     </View>
                 ) : (
@@ -452,7 +452,7 @@ const ReservationsPage = ({ navigation, route }) => {
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.bottomNavItem} disabled={true}>
-                    <FontAwesome name="bus" size={25} color="#28068E" />
+                    <FontAwesome name="bus" size={25} color="#3B82F6" />
                     <Text style={[styles.bottomNavText, styles.bottomNavTextActive]}>Reservations</Text>
                 </TouchableOpacity>
                 
@@ -625,7 +625,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     header: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         paddingVertical: 15,
         paddingHorizontal: 20,
         paddingLeft: 50,
@@ -664,9 +664,9 @@ const styles = StyleSheet.create({
     },
     refreshText: {
         marginTop: -5,
-        color: '#28068E',
+        color: '#3B82F6',
         fontSize: 25,
-        fontWeight: 'bold',
+        fontWeight: '600',
     },
     content: {
         flex: 1,
@@ -679,8 +679,9 @@ const styles = StyleSheet.create({
     },
     statsText: {
         fontSize: 14,
-        color: '#666',
+        color: '#000000',
         fontStyle: 'italic',
+        fontWeight: '600',
     },
     loadingContainer: {
         flex: 1,
@@ -691,7 +692,8 @@ const styles = StyleSheet.create({
     loadingText: {
         marginTop: 10,
         fontSize: 16,
-        color: '#666',
+        color: '#000000',
+        fontWeight: '600',
     },
     noReservationsContainer: {
         flex: 1,
@@ -702,7 +704,7 @@ const styles = StyleSheet.create({
     },
     noReservationsText: {
         fontSize: 18,
-        color: '#666',
+        color: '#000000',
         textAlign: 'center',
         marginTop: 16,
         marginBottom: 8,
@@ -710,8 +712,9 @@ const styles = StyleSheet.create({
     },
     noReservationsSubtext: {
         fontSize: 14,
-        color: '#999',
+        color: '#000000',
         textAlign: 'center',
+        fontWeight: '600',
     },
     reservationsList: {
         padding: 20,
@@ -743,14 +746,14 @@ const styles = StyleSheet.create({
         width: 45,
         height: 45,
         borderRadius: 8,
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 12,
     },
     initialsText: {
         color: 'white',
-        fontWeight: 'bold',
+        fontWeight: '600',
         fontSize: 16,
     },
     agencyDetails: {
@@ -760,11 +763,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         marginBottom: 4,
-        color: '#333',
+        color: '#000000',
     },
     reservationDate: {
         fontSize: 12,
-        color: '#666',
+        color: '#000000',
+        fontWeight: '600',
     },
     priceSection: {
         alignItems: 'flex-end',
@@ -772,12 +776,13 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#28068E',
+        color: '#3B82F6',
         marginBottom: 3,
     },
     passengersCount: {
         fontSize: 12,
-        color: '#666',
+        color: '#000000',
+        fontWeight: '600',
     },
     journeyInfo: {
         marginBottom: 15,
@@ -789,12 +794,12 @@ const styles = StyleSheet.create({
     journeyText: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#333',
+        color: '#000000',
         marginBottom: 4,
     },
     journeyDate: {
         fontSize: 12,
-        color: '#666',
+        color: '#000000',
     },
     statusRow: {
         flexDirection: 'row',
@@ -830,15 +835,17 @@ const styles = StyleSheet.create({
     },
     transactionCode: {
         fontSize: 12,
-        color: '#666',
+        color: '#000000',
         flex: 1,
         paddingBottom : 10,
+        fontWeight: '600',
     },
     actionButtons: {
         flexDirection: 'column',
     },
     payButton: {
-        backgroundColor: '#10B981',
+        borderColor: '#10B981',
+        borderWidth: 3,
         justifyContent :'center',
         flexDirection : 'row',
         alignItems: 'center',
@@ -848,13 +855,14 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     payButtonText: {
-        color: 'white',
+        color: '#3B82F6',
         fontSize: 18,
         fontWeight: '600',
     },
     cancelButton: {
         width: 400,
         backgroundColor: '#EF4444',
+        borderWidth: 3,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 12,
@@ -863,7 +871,7 @@ const styles = StyleSheet.create({
         marginLeft: 8,
     },
     cancelButtonText: {
-        color: 'white',
+        color: '#3B82F6',
         fontSize: 12,
         fontWeight: '600',
         marginLeft: 4,
@@ -884,12 +892,12 @@ const styles = StyleSheet.create({
     },
     bottomNavText: {
         fontSize: 13,
-        fontWeight: 'bold',
-        color: '#666',
+        fontWeight: '600',
+        color: '#000000',
         marginTop: 4,
     },
     bottomNavTextActive: {
-        color: '#28068E',
+        color: '#3B82F6',
     },
     // Modal de paiement styles
     modalOverlay: {
@@ -919,7 +927,7 @@ const styles = StyleSheet.create({
     modalTitle: {
         fontSize: 18,
         fontWeight: '600',
-        color: '#333',
+        color: '#000000',
     },
     reservationSummary: {
         backgroundColor: '#f8f9fa',
@@ -930,18 +938,19 @@ const styles = StyleSheet.create({
     summaryTitle: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#333',
+        color: '#000000',
         marginBottom: 8,
     },
     summaryText: {
         fontSize: 13,
-        color: '#666',
+        color: '#000000',
         marginBottom: 8,
+        fontWeight: '600',
     },
     summaryAmount: {
         fontSize: 16,
-        fontWeight: 'bold',
-        color: '#28068E',
+        fontWeight: '600',
+        color: '#3B82F6',
     },
     paymentForm: {
         marginBottom: 20,
@@ -952,7 +961,7 @@ const styles = StyleSheet.create({
     inputLabel: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#333',
+        color: '#000000',
         marginBottom: 5,
     },
     input: {
@@ -966,12 +975,13 @@ const styles = StyleSheet.create({
     },
     paymentInfo: {
         fontSize: 12,
-        color: '#666',
+        color: '#000000',
         fontStyle: 'italic',
         backgroundColor: '#e8f4fd',
         padding: 10,
         borderRadius: 6,
         marginTop: 10,
+        fontWeight: '600',
     },
     modalActions: {
         flexDirection: 'row',
@@ -979,19 +989,21 @@ const styles = StyleSheet.create({
     },
     cancelButton: {
         flex: 1,
-        backgroundColor: '#ff0000',
+        borderColor: '#ff0000',
+        borderWidth: 2,
         paddingVertical: 12,
         borderRadius: 8,
         alignItems: 'center',
     },
     cancelButtonText: {
-        color: '#ffffff',
+        color: '#3B82F6',
         fontSize: 18,
         fontWeight: '600',
     },
     confirmButton: {
         flex: 1,
-        backgroundColor: '#28068E',
+        borderColor: '#3B82F6',
+        borderWidth: 2,
         paddingVertical: 12,
         borderRadius: 8,
         marginLeft: 10,
@@ -1001,7 +1013,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ccc',
     },
     confirmButtonText: {
-        color: 'white',
+        color: '#3B82F6',
         fontSize: 16,
         fontWeight: '600',
     },
@@ -1021,11 +1033,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     pickerOptionSelected: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
     },
     pickerText: {
         fontSize: 14,
-        color: '#666',
+        color: '#000000',
         fontWeight: '500',
     },
     pickerTextSelected: {
@@ -1038,14 +1050,15 @@ const styles = StyleSheet.create({
     },
     confirmCancelButton: {
         flex: 1,
-        backgroundColor: '#ff0000',
+        borderColor: '#ff0000',
+        borderWidth: 2,
         paddingVertical: 12,
         borderRadius: 8,
         marginLeft: 10,
         alignItems: 'center',
     },
     confirmCancelButtonText: {
-        color: 'white',
+        color: '#3B82F6',
         fontSize: 16,
         fontWeight: '600',
     },

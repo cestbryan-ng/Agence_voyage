@@ -278,28 +278,28 @@ const App8 = ({ navigation, route }) => {
                 <View style={styles.categoriesContainer}>
                     <TouchableOpacity style={styles.categoryItem} onPress={reserver}>
                         <View style={styles.categoryIcon}>
-                        <FontAwesome name="bus" size={35} color="#28068E" />
+                        <FontAwesome name="bus" size={35} color="#3B82F6" />
                         </View>
                         <Text style={styles.categoryText}>Réserver</Text>
                     </TouchableOpacity>
             
             <TouchableOpacity style={styles.categoryItem} onPress={(tickets)}>
               <View style={styles.categoryIcon}>
-                <FontAwesome name="ticket" size={35} color="#28068E" />
+                <FontAwesome name="ticket" size={35} color="#3B82F6" />
               </View>
               <Text style={styles.categoryText}>Mes Billets</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.categoryItem} onPress={(coupon)}>
               <View style={styles.categoryIcon}>
-                <FontAwesome name="percent" size={35} color="#28068E" />
+                <FontAwesome name="percent" size={35} color="#3B82F6" />
               </View>
               <Text style={styles.categoryText}>Promotion</Text>
             </TouchableOpacity>
             
             <TouchableOpacity style={styles.categoryItem} onPress={(historique)}>
               <View style={styles.categoryIcon}>
-                <FontAwesome name="history" size={35} color="#28068E" />
+                <FontAwesome name="history" size={35} color="#3B82F6" />
               </View>
               <Text style={styles.categoryText}>Historique</Text>
             </TouchableOpacity>
@@ -317,7 +317,7 @@ const App8 = ({ navigation, route }) => {
           
           {loadingVoyages ? (
             <View style={styles.loadingContainer}>
-              <ActivityIndicator size="large" color="#28068E" />
+              <ActivityIndicator size="large" color="#3B82F6" />
               <Text style={styles.loadingText}>Chargement des voyages...</Text>
             </View>
           ) : errorVoyages ? (
@@ -379,7 +379,7 @@ const App8 = ({ navigation, route }) => {
       {/* Bottom Navigation - Inchangé */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.bottomNavItem} disabled={true}>
-          <FontAwesome name="home" size={25} color="#28068E" />
+          <FontAwesome name="home" size={25} color="#3B82F6" />
           <Text style={[styles.bottomNavText, styles.bottomNavTextActive]}>Accueil</Text>
         </TouchableOpacity>
         
@@ -554,7 +554,7 @@ const styles = StyleSheet.create({
   },
   seeAllText: {
     fontSize: 14,
-    color: '#28068E',
+    color: '#3B82F6',
     fontWeight: '500',
   },
   categoriesContainer: {
@@ -581,6 +581,7 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontFamily: 'Inter',
+    fontWeight : '600',
   },
   visitedContainer: {
     flexDirection: 'row',
@@ -622,6 +623,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 12,
     marginLeft: 4,
+    fontWeight : '600',
   },
   favoriteButton: {
     backgroundColor: 'rgba(0,0,0,0.6)',
@@ -651,6 +653,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'white',
     marginLeft: 2,
+    fontWeight : '600',
   },
   // Nouveaux styles pour les états de chargement
   loadingContainer: {
@@ -661,6 +664,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: '#666',
     fontSize: 16,
+    fontWeight : '600',
   },
   errorContainer: {
     alignItems: 'center',
@@ -672,14 +676,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   retryButton: {
-    backgroundColor: '#28068E',
+    backgroundColor: '#3B82F6',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 8,
   },
   retryText: {
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight : '600',
   },
   noDataContainer: {
     alignItems: 'center',
@@ -688,6 +692,7 @@ const styles = StyleSheet.create({
   noDataText: {
     color: '#666',
     fontSize: 16,
+    fontWeight : '600',
   },
   agenciesContainer: {
     flexDirection: 'row',
@@ -725,9 +730,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#666',
     marginTop: 4,
+    fontWeight : '600',
   },
   bottomNavTextActive: {
-    color: '#28068E',
+    color: '#3B82F6',
   },
   // Side Menu Styles
   modalOverlay: {
@@ -784,12 +790,12 @@ const styles = StyleSheet.create({
   menuItemText: {
     fontSize: 16,
     color: '#333',
-    fontWeight: 'bold',
+    fontWeight : '600',
   },
   menuItemTextLog: {
     fontSize: 16,
     color: 'red',
-    fontWeight: 'bold',
+    fontWeight : '600',
   },
   menuDivider: {
     height: 1,
@@ -803,7 +809,7 @@ const styles = StyleSheet.create({
   versionText: {
     fontSize: 14,
     color: '#999',
-    fontWeight: '400',
+    fontWeight : '600',
   },
   logoutItem: {
     marginTop: 20,

@@ -253,12 +253,12 @@ const HistoriqueReservationsPage = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="light-content" backgroundColor="#28068E" />
+            <StatusBar barStyle="light-content" backgroundColor="#3B82F6" />
             
             {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity style={styles.backButton} onPress={retour}>
-                    <Icon name="arrow-back" size={20} color="#28068E" />
+                    <Icon name="arrow-back" size={20} color="#3B82F6" />
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>Historique des Réservations</Text>
                 <TouchableOpacity 
@@ -276,7 +276,7 @@ const HistoriqueReservationsPage = ({ navigation, route }) => {
                     <RefreshControl
                         refreshing={refreshing}
                         onRefresh={onRefresh}
-                        colors={['#28068E']}
+                        colors={['#3B82F6']}
                     />
                 }
             >
@@ -290,7 +290,7 @@ const HistoriqueReservationsPage = ({ navigation, route }) => {
                 {/* Loading indicator */}
                 {loading ? (
                     <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color="#28068E" />
+                        <ActivityIndicator size="large" color="#3B82F6" />
                         <Text style={styles.loadingText}>Chargement de l'historique...</Text>
                     </View>
                 ) : (
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     header: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         paddingVertical: 15,
         paddingHorizontal: 20,
         flexDirection: 'row',
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
     },
     refreshText: {
         marginTop: -5,
-        color: '#28068E',
+        color: '#3B82F6',
         fontSize: 25,
         fontWeight: 'bold',
     },
@@ -461,7 +461,7 @@ const styles = StyleSheet.create({
     mainDate: {
         fontSize: 14,
         fontWeight: 'bold',
-        color: '#28068E',
+        color: '#3B82F6',
         marginBottom: 3,
     },
     dateLabel: {
@@ -569,7 +569,7 @@ const styles = StyleSheet.create({
         marginTop: 4,
     },
     bottomNavTextActive: {
-        color: '#28068E',
+        color: '#3B82F6',
     },
 });
 

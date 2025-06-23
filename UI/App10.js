@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -45,6 +45,48 @@ const App10 = ({ navigation, route }) => {
   const [mobilePhone, setMobilePhone] = useState('');
   const [mobilePhoneName, setMobilePhoneName] = useState('');
   const [paymentLoading, setPaymentLoading] = useState(false);
+
+  // Nouveaux états pour les places réservées depuis l'API
+  const [placesReservees, setPlacesReservees] = useState([]);
+  const [loadingPlaces, setLoadingPlaces] = useState(true);
+
+  // Fonction pour récupérer les places réservées depuis l'API
+  const recupererPlacesReservees = async () => {
+    try {
+      setLoadingPlaces(true);
+      
+      const response = await fetch(`http://agence-voyage.ddns.net/api/voyage/byId/${voyage.idVoyage}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
+        },
+      });
+
+      if (response.ok) {
+        const voyageData = await response.json();
+        // Récupérer les places réservées depuis la réponse API
+        const placesReservees = voyageData.placeReservees || [];
+        setPlacesReservees(placesReservees);
+        console.log('Places réservées récupérées:', placesReservees);
+      } else {
+        console.error('Erreur lors de la récupération des places:', response.status);
+        // En cas d'erreur, on garde un tableau vide
+        setPlacesReservees([]);
+      }
+    } catch (error) {
+      console.error('Erreur réseau lors de la récupération des places:', error);
+      // En cas d'erreur réseau, on garde un tableau vide
+      setPlacesReservees([]);
+    } finally {
+      setLoadingPlaces(false);
+    }
+  };
+
+  // Charger les places réservées au montage du composant
+  useEffect(() => {
+    recupererPlacesReservees();
+  }, [voyage.idVoyage]);
 
   // Fonction pour augmenter le nombre de bagages
   const augmenterBagages = () => {
@@ -148,6 +190,12 @@ const App10 = ({ navigation, route }) => {
           voyage: voyage
         });
         
+        // Rafraîchir les places disponibles après la réservation
+        await recupererPlacesReservees();
+        
+        // Réinitialiser la sélection de sièges
+        setSelectedSeats([]);
+        
         setShowReservationModal(false);
         setShowPostReservationModal(true);
       } else {
@@ -230,7 +278,7 @@ const App10 = ({ navigation, route }) => {
     }
   };
 
-  // Génération des sièges
+  // Génération des sièges avec les vraies places réservées depuis l'API
   const generateSeats = () => {
     const seats = [];
     // Driver seat
@@ -238,7 +286,8 @@ const App10 = ({ navigation, route }) => {
     
     // Regular seats 
     for (let i = 1; i <= voyage.nbrPlaceRestante; i++) {
-      const isReserved = [].includes(i); // Quelques sièges réservés
+      // Utiliser les vraies places réservées depuis l'API
+      const isReserved = placesReservees.includes(i);
       const isSelected = selectedSeats.includes(i);
       seats.push({
         id: i,
@@ -335,7 +384,7 @@ const App10 = ({ navigation, route }) => {
           <View style={styles.detailsContainer}>
             {/* Travel Agency */}
             <View style={styles.detailRow}>
-              <Icon name="home" size={20} color="#28068E" />
+              <Icon name="home" size={20} color="#3B82F6" />
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Agence de voyage</Text>
                 <Text style={styles.detailValue}>{voyage.nomAgence || 'Non défini'}</Text>
@@ -344,7 +393,7 @@ const App10 = ({ navigation, route }) => {
 
             {/* Departure Location */}
             <View style={styles.detailRow}>
-              <Icon name="location-on" size={20} color="#28068E" />
+              <Icon name="location-on" size={20} color="#3B82F6" />
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Lieu de départ</Text>
                 <Text style={styles.detailValue}>{voyage.lieuDepart || 'Non défini'}</Text>
@@ -353,7 +402,7 @@ const App10 = ({ navigation, route }) => {
 
             {/* Arrival Location */}
             <View style={styles.detailRow}>
-              <Icon name="place" size={20} color="#28068E" />
+              <Icon name="place" size={20} color="#3B82F6" />
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Lieu d'arrivé</Text>
                 <Text style={styles.detailValue}>{voyage.lieuArrive || 'Non défini'}</Text>
@@ -362,7 +411,7 @@ const App10 = ({ navigation, route }) => {
 
             {/* Unit Price */}
             <View style={styles.detailRow}>
-              <Icon name="credit-card" size={20} color="#28068E" />
+              <Icon name="credit-card" size={20} color="#3B82F6" />
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Unité</Text>
                 <Text style={styles.detailValue}>{voyage.prix || 'Erreur'} FCFA</Text>
@@ -371,7 +420,7 @@ const App10 = ({ navigation, route }) => {
 
             {/* Number of places */}
             <View style={styles.detailRow}>
-              <Icon name="airline-seat-recline-normal" size={20} color="#28068E" />
+              <Icon name="airline-seat-recline-normal" size={20} color="#3B82F6" />
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Nombre de place reservée</Text>
                 <Text style={styles.detailValue}>{selectedSeats.length}</Text>
@@ -380,7 +429,7 @@ const App10 = ({ navigation, route }) => {
 
             {/* Bagages Section */}
             <View style={styles.detailRow}>
-              <Icon name="luggage" size={20} color="#28068E" />
+              <Icon name="luggage" size={20} color="#3B82F6" />
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Nombre de bagages</Text>
                 <View style={styles.bagageControls}>
@@ -389,14 +438,14 @@ const App10 = ({ navigation, route }) => {
                     onPress={diminuerBagages}
                     disabled={nombreBagages === 0}
                   >
-                    <Icon name="remove" size={20} color={nombreBagages === 0 ? "#ccc" : "#28068E"} />
+                    <Icon name="remove" size={20} color={nombreBagages === 0 ? "#ccc" : "#3B82F6"} />
                   </TouchableOpacity>
                   <Text style={styles.bagageCount}>{nombreBagages}</Text>
                   <TouchableOpacity 
                     style={styles.bagageButton} 
                     onPress={augmenterBagages}
                   >
-                    <Icon name="add" size={20} color="#28068E" />
+                    <Icon name="add" size={20} color="#3B82F6" />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -410,7 +459,7 @@ const App10 = ({ navigation, route }) => {
 
             {/* Selected Seats */}
             <View style={styles.detailRow}>
-              <Icon name="event-seat" size={20} color="#28068E" />
+              <Icon name="event-seat" size={20} color="#3B82F6" />
               <View style={styles.detailContent}>
                 <Text style={styles.detailLabel}>Place(s) selectionnée(s)</Text>
                 <Text style={styles.detailValue}>
@@ -422,7 +471,7 @@ const App10 = ({ navigation, route }) => {
             {/* Bagages Summary */}
             {nombreBagages > 0 && (
               <View style={styles.detailRow}>
-                <Icon name="work" size={20} color="#28068E" />
+                <Icon name="work" size={20} color="#3B82F6" />
                 <View style={styles.detailContent}>
                   <Text style={styles.detailLabel}>Résumé bagages</Text>
                   <Text style={styles.detailValue}>
@@ -464,10 +513,17 @@ const App10 = ({ navigation, route }) => {
             </View>
           </View>
 
-          {/* Seat Map */}
+          {/* Seat Map with loading state */}
           <ScrollView style={styles.seatMapContainer} showsVerticalScrollIndicator={false}>
             <View style={styles.seatMap}>
-              {renderSeatMap()}
+              {loadingPlaces ? (
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator size="large" color="#3B82F6" />
+                  <Text style={styles.loadingText}>Chargement des places...</Text>
+                </View>
+              ) : (
+                renderSeatMap()
+              )}
             </View>
           </ScrollView>
         </View>
@@ -561,7 +617,7 @@ const App10 = ({ navigation, route }) => {
                           updatePassager(index, 'nbrBaggage', newValue);
                         }}
                       >
-                        <Icon name="remove" size={20} color="#28068E" />
+                        <Icon name="remove" size={20} color="#3B82F6" />
                       </TouchableOpacity>
                       <Text style={styles.bagageCount}>{passager.nbrBaggage}</Text>
                       <TouchableOpacity 
@@ -571,7 +627,7 @@ const App10 = ({ navigation, route }) => {
                           updatePassager(index, 'nbrBaggage', newValue);
                         }}
                       >
-                        <Icon name="add" size={20} color="#28068E" />
+                        <Icon name="add" size={20} color="#3B82F6" />
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -660,7 +716,7 @@ const App10 = ({ navigation, route }) => {
                   });
                 }}
               >
-                <Icon name="schedule" size={24} color="#28068E" />
+                <Icon name="schedule" size={24} color="#3B82F6" />
                 <Text style={styles.payLaterButtonText}>Payer plus tard</Text>
               </TouchableOpacity>
             </View>
@@ -782,7 +838,7 @@ const styles = StyleSheet.create({
   pageTitle: {
     fontSize: 20,
     fontWeight: '600',
-    color: '#28068E',
+    color: '#3B82F6',
     paddingRight : 130,
     marginBottom: 20,
   },
@@ -800,13 +856,14 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontSize: 12,
-    color: '#666',
+    color: '#000000',
     marginBottom: 2,
+    fontWeight : '600',
   },
   detailValue: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#333',
+    color: '#000000',
   },
   // Styles pour les bagages
   bagageControls: {
@@ -845,7 +902,7 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: '#000000',
   },
   totalValue: {
     fontSize: 16,
@@ -853,7 +910,7 @@ const styles = StyleSheet.create({
     color: '#10B981',
   },
   continueButton: {
-    backgroundColor: '#28068E',
+    backgroundColor: '#3B82F6',
     borderRadius: 8,
     paddingVertical: 12,
     alignItems: 'center',
@@ -904,7 +961,7 @@ const styles = StyleSheet.create({
   },
   legendText: {
     fontSize: 12,
-    color: '#666',
+    color: '#000000',
   },
   seatMapContainer: {
     flex: 1,
@@ -912,6 +969,17 @@ const styles = StyleSheet.create({
   seatMap: {
     alignItems: 'center',
     paddingVertical: 20,
+  },
+  // Styles pour le loading des places
+  loadingContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 40,
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 14,
+    color: '#000000',
   },
   driverRow: {
     flexDirection: 'row',
@@ -947,7 +1015,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 2,
-    borderWidth: 1,
+    borderWidth: 2,
     width: 40,
     height: 40,
   },
@@ -958,7 +1026,7 @@ const styles = StyleSheet.create({
   },
   availableSeat: {
     backgroundColor: 'white',
-    borderColor: '#d1d5db',
+    borderColor: '#3B82F6',
   },
   selectedSeat: {
     backgroundColor: '#10B981',
@@ -974,6 +1042,7 @@ const styles = StyleSheet.create({
   reservedText: {
     color: 'white',
     fontSize: 15,
+    fontWeight : '600',
   },
   driverSeat: {
     backgroundColor: '#3B82F6',
@@ -984,6 +1053,7 @@ const styles = StyleSheet.create({
   driverText: {
     color: 'white',
     fontSize: 15,
+    fontWeight : '600',
   },
   rowLabel: {
     fontSize: 10,
@@ -1055,7 +1125,7 @@ const styles = StyleSheet.create({
   passagerTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#28068E',
+    color: '#3B82F6',
     marginBottom: 15,
   },
   inputGroup: {
@@ -1098,7 +1168,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   genderOptionSelected: {
-    backgroundColor: '#28068E',
+    backgroundColor: '#3B82F6',
   },
   genderText: {
     fontSize: 14,
@@ -1123,7 +1193,7 @@ const styles = StyleSheet.create({
   summaryText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#28068E',
+    color: '#3B82F6',
     textAlign: 'center',
   },
   modalActions: {
@@ -1150,7 +1220,7 @@ const styles = StyleSheet.create({
   summaryAmount: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#28068E',
+    color: '#3B82F6',
   },
   cancelReservationButton: {
     flex: 1,
@@ -1167,7 +1237,7 @@ const styles = StyleSheet.create({
   },
   confirmReservationButton: {
     flex: 1,
-    backgroundColor: '#28068E',
+    backgroundColor: '#3B82F6',
     paddingVertical: 12,
     borderRadius: 8,
     marginLeft: 10,
@@ -1238,7 +1308,7 @@ const styles = StyleSheet.create({
   payLaterButton: {
     backgroundColor: 'white',
     borderWidth: 2,
-    borderColor: '#28068E',
+    borderColor: '#3B82F6',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -1247,7 +1317,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   payLaterButtonText: {
-    color: '#28068E',
+    color: '#3B82F6',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -1288,7 +1358,7 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     flex: 1,
-    backgroundColor: '#28068E',
+    backgroundColor: '#3B82F6',
     paddingVertical: 12,
     borderRadius: 8,
     marginLeft: 10,

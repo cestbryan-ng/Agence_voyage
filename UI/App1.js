@@ -146,7 +146,7 @@ const App1 = ({ navigation }) => {
                 />
             </View>
             <View style={styles.container3}>
-                <Text style={styles.texte1}>Entrer votre numéro de téléphone</Text>
+                <Text style={styles.texte1}>Entrer votre nom d'utilisateur</Text>
                 <TextInput
                     style={focus1 ? styles.textinputfocus : styles.textinput}
                     placeholder='Votre numéro de téléphone...'
@@ -170,18 +170,18 @@ const App1 = ({ navigation }) => {
                     <Image source={require('./images/vue.png')} />
                 </TouchableOpacity>
                 <TouchableOpacity style={{alignSelf: 'flex-end', paddingTop: 25}} onPress={passwordoublie}>
-                    <Text style={{color: '#28068E', paddingBottom: 5, fontFamily: "inter", fontSize: 13}}>Mot de passe oublié ?</Text>
+                    <Text style={{color: '#3B82F6', paddingBottom: 5, fontFamily: "inter", fontSize: 13}}>Mot de passe oublié ?</Text>
                 </TouchableOpacity>
                 {loading ? (
                     <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color="#28068E" />
+                        <ActivityIndicator size="large" color="#3B82F6" />
                     </View>
                 ) : (
                 <TouchableOpacity style={styles.button} onPress={connexion}>
                     <Text style={{color: '#ffffff', fontFamily: "inter", fontSize: 16, fontWeight: 'bold'}}>Se connecter</Text>
                 </TouchableOpacity>)}
                 <TouchableOpacity onPress={enregistrer}>
-                    <Text style={{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#28068E', fontWeight: 'bold'}}>Pas de compte ? Créez en un</Text>
+                    <Text style={{alignSelf: 'center', paddingTop: 10, fontSize: 14, fontFamily: "nunito", color: '#3B82F6', fontWeight: 'bold'}}>Pas de compte ? Créez en un</Text>
                 </TouchableOpacity>
                 <Text style={{alignSelf: 'center', paddingTop: 15, paddingBottom: 15,}}>ou</Text>
                 <TouchableOpacity style={{borderWidth: 1, borderColor: '#D1D1D1', borderRadius: 20, width: 300, alignSelf: 'center', flexDirection: 'row', height: 45}} onPress={google}>
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         height: 45,
         justifyContent: 'center',
         alignItems: 'center',

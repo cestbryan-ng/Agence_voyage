@@ -214,7 +214,7 @@ const BilletsPage = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar barStyle="light-content" backgroundColor="#28068E" />
+            <StatusBar barStyle="light-content" backgroundColor="#3B82F6" />
             
             {/* Header */}
             <View style={styles.header}>
@@ -238,7 +238,7 @@ const BilletsPage = ({ navigation, route }) => {
                 {/* Loading indicator */}
                 {loading ? (
                     <View style={styles.loadingContainer}>
-                        <ActivityIndicator size="large" color="#28068E" />
+                        <ActivityIndicator size="large" color="#3B82F6" />
                         <Text style={styles.loadingText}>Chargement de vos billets...</Text>
                     </View>
                 ) : (
@@ -271,7 +271,7 @@ const BilletsPage = ({ navigation, route }) => {
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.bottomNavItem} disabled={true}>
-                    <FontAwesome name="ticket" size={25} color="#28068E" />
+                    <FontAwesome name="ticket" size={25} color="#3B82F6" />
                     <Text style={[styles.bottomNavText, styles.bottomNavTextActive]}>Billets</Text>
                 </TouchableOpacity>
                 
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     header: {
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         paddingVertical: 15,
         paddingHorizontal: 20,
         paddingLeft: 50,
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
     },
     refreshText: {
         marginTop: -5,
-        color: '#28068E',
+        color: '#3B82F6',
         fontSize: 25,
         fontWeight: 'bold',
     },
@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
         width: 45,
         height: 45,
         borderRadius: 8,
-        backgroundColor: '#28068E',
+        backgroundColor: '#3B82F6',
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 12,
@@ -432,7 +432,7 @@ const styles = StyleSheet.create({
     price: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#28068E',
+        color: '#3B82F6',
         marginBottom: 3,
     },
     seatNumber: {
@@ -548,7 +548,7 @@ const styles = StyleSheet.create({
         marginTop: 4,
     },
     bottomNavTextActive: {
-        color: '#28068E',
+        color: '#3B82F6',
     },
 });
 
