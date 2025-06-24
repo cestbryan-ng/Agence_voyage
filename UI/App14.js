@@ -200,7 +200,7 @@ const ReservationsPage = ({ navigation, route }) => {
             const response = await fetch('http://agence-voyage.ddns.net/api/reservation/payer', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
                     'Authorization': 'Bearer ' + token,
                 },
                 body: JSON.stringify(paymentData)
@@ -270,9 +270,8 @@ const ReservationsPage = ({ navigation, route }) => {
                 Alert.alert('Succès', 'Réservation annulée avec succès !');
                 fermerModalAnnulation();
                 fetchReservations(0, 10);
-            } else if(response.status == 400) {
+            } else if(response.status == 404) {
                 const data = await response.text();
-                console.log(data);
                 throw new Error(`Erreur lors de l'annulation: ${response.status}`);
             } else {
                 const errorData = await response.text();

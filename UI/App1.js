@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity, Alert, ActivityIndicator, ScrollView } from 'react-native';
 
 const App1 = ({ navigation }) => {
     const connexion = async () => {
@@ -135,7 +135,7 @@ const App1 = ({ navigation }) => {
     const [loading, setLoading] = useState(false);
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} showsVerticalScrollIndicator={false}>
             <View style={styles.container2}>
                 <Text style={styles.texte}>Se connecter</Text>
             </View>
@@ -149,12 +149,11 @@ const App1 = ({ navigation }) => {
                 <Text style={styles.texte1}>Entrer votre nom d'utilisateur</Text>
                 <TextInput
                     style={focus1 ? styles.textinputfocus : styles.textinput}
-                    placeholder='Votre numéro de téléphone...'
+                    placeholder="Votre nom d'utilisateur..."
                     onFocus={() => setfocus1(true)}
                     onBlur={() => setfocus1(false)}
                     value={username}
                     onChangeText={setusername}
-                    keyboardType="phone-pad"
                 />
                 <Text style={styles.texte1}>Entrer votre mot de passe</Text>
                 <TextInput 
@@ -169,7 +168,7 @@ const App1 = ({ navigation }) => {
                 <TouchableOpacity style={{marginTop: -30, alignSelf: 'flex-end', marginRight: 10,}} onPress={voirpassword}>
                     <Image source={require('./images/vue.png')} />
                 </TouchableOpacity>
-                <TouchableOpacity style={{alignSelf: 'flex-end', paddingTop: 25}} onPress={passwordoublie}>
+                <TouchableOpacity style={{alignSelf: 'flex-end', marginTop: 40}} onPress={passwordoublie}>
                     <Text style={{color: '#3B82F6', paddingBottom: 5, fontFamily: "inter", fontSize: 13}}>Mot de passe oublié ?</Text>
                 </TouchableOpacity>
                 {loading ? (
@@ -214,13 +213,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#ffffff',
         marginTop: 50,
+        marginBottom: -20,
     },
 
     container3: {
         flex: 0,
         width: 350,
         height: 400,
-        marginTop: 20,
         alignSelf: 'center',
         backgroundColor: '#ffffff',
     },
@@ -268,6 +267,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 15,
+        marginTop: 15,
+        marginBottom: 15,
     },
 
     image: {

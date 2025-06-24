@@ -1,5 +1,5 @@
 import { React, useState } from 'react';
-import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, StyleSheet, TextInput, Image, Text, TouchableOpacity, Alert, ScrollView, ActivityIndicator } from 'react-native';
 
 const App2 = ({ navigation }) => {
     function retour() {
@@ -211,7 +211,6 @@ const App2 = ({ navigation }) => {
                     onBlur={() => setfocus4(false)}
                     value={username}
                     onChangeText={setusername}
-                    keyboardType="phone-pad"
                 />
 
                 {/* Genre */}
@@ -305,13 +304,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#ffffff',
-        marginTop: 50,
+        marginTop: 0,
     },
 
     container3: {
         flex: 0,
         width: 350,
-        marginTop: 20,
+        marginTop: -20,
         alignSelf: 'center',
         backgroundColor: '#ffffff',
         paddingBottom: 50, // Pour éviter que le contenu soit coupé

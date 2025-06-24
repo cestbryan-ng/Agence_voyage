@@ -35,6 +35,7 @@ const App10 = ({ navigation, route }) => {
   const [showReservationModal, setShowReservationModal] = useState(false);
   const [passagers, setPassagers] = useState([]);
   const [reservationLoading, setReservationLoading] = useState(false);
+  const [placesEnCoursDeReservation, setPlacesEnCoursDeReservation] = useState([]);
   
   // États pour les actions post-réservation
   const [showPostReservationModal, setShowPostReservationModal] = useState(false);
@@ -49,6 +50,13 @@ const App10 = ({ navigation, route }) => {
   // Nouveaux états pour les places réservées depuis l'API
   const [placesReservees, setPlacesReservees] = useState([]);
   const [loadingPlaces, setLoadingPlaces] = useState(true);
+
+  // Fonction pour fermer le modal de réservation proprement
+  const fermerModalReservation = () => {
+    setShowReservationModal(false);
+    // Réinitialiser les données des passagers si besoin
+    setPassagers([]);
+  };
 
   // Fonction pour récupérer les places réservées depuis l'API
   const recupererPlacesReservees = async () => {
@@ -107,8 +115,12 @@ const App10 = ({ navigation, route }) => {
       return;
     }
 
+    // Sauvegarder les places sélectionnées pour la réservation en cours
+    const placesAReserver = [...selectedSeats];
+    setPlacesEnCoursDeReservation(placesAReserver);
+
     // Initialiser les passagers avec les places sélectionnées
-    const nouveauxPassagers = selectedSeats.map((place, index) => ({
+    const nouveauxPassagers = placesAReserver.map((place, index) => ({
       numeroPieceIdentific: '',
       nom: '',
       genre: 'M',
@@ -158,7 +170,7 @@ const App10 = ({ navigation, route }) => {
       setReservationLoading(true);
 
       const reservationData = {
-        nbrPassager: selectedSeats.length,
+        nbrPassager: placesEnCoursDeReservation.length,
         montantPaye: 0, // Pas de paiement initial
         idUser: userData?.userId || '3fa85f64-5717-4562-b3fc-2c963f66afa6',
         idVoyage: voyage.idVoyage,
@@ -182,21 +194,25 @@ const App10 = ({ navigation, route }) => {
       if (response.ok) {
         const reservationResult = await response.json();
         
-        // Stocker les informations de la réservation
+        // Stocker les informations de la réservation avec les places actuellement sélectionnées
         setCurrentReservation({
           ...reservationResult,
           prixTotal: selectedSeats.length * voyage.prix,
           agence: { longName: voyage.nomAgence },
-          voyage: voyage
+          voyage: voyage,
+          placesReservees: [...selectedSeats] // Sauvegarder les places réservées
         });
+        
+        // Fermer le modal de réservation d'abord
+        setShowReservationModal(false);
         
         // Rafraîchir les places disponibles après la réservation
         await recupererPlacesReservees();
         
-        // Réinitialiser la sélection de sièges
+        // Réinitialiser la sélection de sièges APRÈS fermeture du modal
         setSelectedSeats([]);
         
-        setShowReservationModal(false);
+        // Ouvrir le modal de post-réservation
         setShowPostReservationModal(true);
       } else {
         const errorData = await response.text();
@@ -534,13 +550,13 @@ const App10 = ({ navigation, route }) => {
         animationType="slide"
         transparent={true}
         visible={showReservationModal}
-        onRequestClose={() => setShowReservationModal(false)}
+        onRequestClose={fermerModalReservation}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Informations des passagers</Text>
-              <TouchableOpacity onPress={() => setShowReservationModal(false)}>
+              <TouchableOpacity onPress={fermerModalReservation}>
                 <Icon name="close" size={24} color="#666" />
               </TouchableOpacity>
             </View>
@@ -687,7 +703,7 @@ const App10 = ({ navigation, route }) => {
                   Montant: {currentReservation.prixTotal?.toLocaleString()} FCFA
                 </Text>
                 <Text style={styles.summaryPassengers}>
-                  {selectedSeats.length} passager(s) - Places: {selectedSeats.join(', ')}
+                  {currentReservation.placesReservees?.length || 0} passager(s) - Places: {currentReservation.placesReservees?.join(', ') || 'Aucune'}
                 </Text>
               </View>
             )}
@@ -856,14 +872,13 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontSize: 12,
-    color: '#000000',
+    color: '#666',
     marginBottom: 2,
-    fontWeight : '600',
   },
   detailValue: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#000000',
+    color: '#333',
   },
   // Styles pour les bagages
   bagageControls: {
@@ -902,7 +917,7 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#000000',
+    color: '#333',
   },
   totalValue: {
     fontSize: 16,
@@ -961,7 +976,7 @@ const styles = StyleSheet.create({
   },
   legendText: {
     fontSize: 12,
-    color: '#000000',
+    color: '#666',
   },
   seatMapContainer: {
     flex: 1,
@@ -979,7 +994,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 10,
     fontSize: 14,
-    color: '#000000',
+    color: '#666',
   },
   driverRow: {
     flexDirection: 'row',
@@ -1015,7 +1030,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 2,
-    borderWidth: 2,
+    borderWidth: 1,
     width: 40,
     height: 40,
   },
@@ -1026,7 +1041,7 @@ const styles = StyleSheet.create({
   },
   availableSeat: {
     backgroundColor: 'white',
-    borderColor: '#3B82F6',
+    borderColor: '#d1d5db',
   },
   selectedSeat: {
     backgroundColor: '#10B981',
@@ -1042,7 +1057,6 @@ const styles = StyleSheet.create({
   reservedText: {
     color: 'white',
     fontSize: 15,
-    fontWeight : '600',
   },
   driverSeat: {
     backgroundColor: '#3B82F6',
@@ -1053,7 +1067,6 @@ const styles = StyleSheet.create({
   driverText: {
     color: 'white',
     fontSize: 15,
-    fontWeight : '600',
   },
   rowLabel: {
     fontSize: 10,

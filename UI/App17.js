@@ -148,7 +148,8 @@ const CouponsPage = ({ navigation, route }) => {
             setLoading(true);
             
             // Utiliser l'ID utilisateur depuis userData
-            const userId = userData?.id || userData?.userId || '3fa85f64-5717-4562-b3fc-2c963f66afa6';
+            const userId = userData?.userId || '3fa85f64-5717-4562-b3fc-2c963f66afa6';
+            console.log(userId);
             
             const response = await fetch(`http://agence-voyage.ddns.net/api/coupon/user/${userId}`, {
                 method: 'GET',
@@ -159,6 +160,7 @@ const CouponsPage = ({ navigation, route }) => {
             });
 
             if (response.status === 200) {
+                console.log(response.status);
                 const data = await response.json();
                 setCoupons(Array.isArray(data) ? data : []);
             } else {
