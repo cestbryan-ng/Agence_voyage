@@ -39,9 +39,6 @@ const CouponsPage = ({ navigation, route }) => {
         });
     };
 
-    const navigateToNotifications = () => {
-        Alert.alert('Info', 'Page Notifications en cours de développement');
-    };
 
     const tickets = () => {
         navigation.navigate('App15', {
