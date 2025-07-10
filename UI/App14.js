@@ -51,11 +51,6 @@ const ReservationsPage = ({ navigation, route }) => {
         });
     };
 
-    const navigateToNotifications = () => {
-        // À implémenter selon votre logique
-        Alert.alert('Info', 'Page Notifications en cours de développement');
-    };
-
     // Fonction pour formater la date
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -209,7 +204,7 @@ const ReservationsPage = ({ navigation, route }) => {
             if (response.ok) {
                 Alert.alert('Succès', 'Paiement effectué avec succès !');
                 fermerModalPaiement();
-                fetchReservations(0, 10); // Recharger la liste
+                fetchReservations(0, 10); 
             } else {
                 const errorData = await response.text();
                 throw new Error(`Erreur lors du paiement: ${response.status}`);
