@@ -10,13 +10,11 @@ const App1 = ({ navigation }) => {
 
         try {
             setLoading(true);
-            // URL de l'API selon le swagger
             const apiUrl = 'http://agence-voyage.ddns.net/api/utilisateur/connexion';
             
-            // Données à envoyer selon l'API
             const authentificationData = {
-                username: username,  // L'API attend 'username'
-                password: password      // L'API attend 'password'
+                username: username,  
+                password: password   
             };
 
             console.log('=== DEBUT DEBUG CONNEXION ===');
@@ -27,7 +25,7 @@ const App1 = ({ navigation }) => {
             const response = await fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                    'accept': '*/*',  // Exactement comme dans ta commande cURL
+                    'accept': '*/*', 
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(authentificationData)
@@ -36,7 +34,6 @@ const App1 = ({ navigation }) => {
             console.log('Statut de la réponse:', response.status);
             console.log('Headers de la réponse:', response.headers);
 
-            // Toujours lire la réponse comme texte d'abord pour debug
             const responseText = await response.text();
 
             if (response.status == 200) {
@@ -69,7 +66,7 @@ const App1 = ({ navigation }) => {
                     Alert.alert("Erreur", "Réponse invalide du serveur");
                 }
             } else {
-                // Cette API retourne 500 pour TOUTES les erreurs (mauvais design mais c'est comme ça)
+                // Cette API retourne 500 pour TOUTES les erreurs
                 console.log('=== ERREUR HTTP ===');
                 console.log('Status:', response.status);
                 console.log('Status Text:', response.statusText);
@@ -99,7 +96,7 @@ const App1 = ({ navigation }) => {
             if (error.name === 'TypeError' && error.message.includes('Network request failed')) {
                 Alert.alert("Erreur de réseau", "Vérifiez votre connexion internet");
             } else {
-                Alert.alert("Erreur", `Une erreur inattendue s'est produite: ${error.message}`);
+                Alert.alert("Erreur", `Une erreur inattendue s'est produite : ${error.message}`);
             }
         } finally {
             setLoading(false);
@@ -107,7 +104,7 @@ const App1 = ({ navigation }) => {
     }
 
     function google() {
-        Alert.alert('Pas encore disponible', 'Revenez plus tard')
+        Alert.alert('Pas encore disponible.', 'Revenez plus tard')
     }
 
     function passwordoublie() { 
