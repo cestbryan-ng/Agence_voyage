@@ -7,6 +7,7 @@
 
 ---
 
+
 ## Description
 
 Cette application mobile permet à un utilisateur de :
@@ -21,6 +22,7 @@ Cette application mobile permet à un utilisateur de :
 L’application est développée pour offrir une expérience utilisateur fluide et intuitive, avec un design moderne adapté aux smartphones.
 
 ---
+
 
 ## Instructions set-up
 
@@ -45,6 +47,7 @@ Voir aussi :
 
 ---
 
+
 ## Contact
 
-Pour toute question, contactez **ngoupeyoubryan9@gmail.com**.
+Pour toute question, contactez ngoupeyoubryan9@gmail.com.
