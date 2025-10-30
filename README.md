@@ -1,19 +1,14 @@
-# ✈️ Application Mobile d'Agence de Voyage
-
----
+# Application Mobile d'Agence de Voyage
 
 
-## 👥 Groupe
-Numéro de groupe :  **16**
+## Thème
 
----
-
-## 🎯 Thème
 **Application mobile d'agence de voyage**
 
 ---
 
-## 📝 Description
+## Description
+
 Cette application mobile permet à un utilisateur de :
 
 - Consulter différentes offres de voyages
@@ -27,8 +22,20 @@ L’application est développée pour offrir une expérience utilisateur fluide 
 
 ---
 
-## 🛠️ Instructions set-up
-Pour exécuter ou tester l'application, vous devez télécharger l'apk depuis ce lien --> [apk](https://drive.google.com/drive/folders/1QvVJ4MgHdm3z_4V4KKUovWu5W_qAowkM?usp=drive_link), puis l'installer sur votre système android.
+## Instructions set-up
+
+Pour configurer et lancer le projet, suivez ces commandes :
+
+```bash
+git clone https://github.com/cestbryan-ng/Agence_voyage.git
+cd Agence_voyage
+npm install
+
+# Pour démarrer sur un émulateur Android de votre machine
+npx react-native run-android
+```
+
+Vous pouvez aussi télécharger l'[apk](https://drive.google.com/drive/folders/1QvVJ4MgHdm3z_4V4KKUovWu5W_qAowkM?usp=drive_link), puis l'installer sur votre système android.
 
 Version ios pas encore disponible.
 
@@ -38,6 +45,6 @@ Voir aussi :
 
 ---
 
-## 📧 Contact
+## Contact
 
-Pour toute question, contactez ngoupeyoubryan9@gmail.com.
+Pour toute question, contactez **ngoupeyoubryan9@gmail.com**.
