@@ -1,11 +1,6 @@
 # Application Mobile d'Agence de Voyage
 
-
-## Thème
-
-**Application mobile d'agence de voyage**
-
----
+Ce projet consiste en le développement d'une application mobile moderne et intuitive dédiée à la gestion de voyages. Conçue pour simplifier l'expérience utilisateur, l'application centralise l'ensemble du processus de réservation, de la découverte d'offres exclusives jusqu'au suivi personnalisé du voyageur.L'objectif est d'offrir une interface fluide permettant aux utilisateurs de planifier leurs déplacements en quelques clics, tout en intégrant des fonctionnalités de fidélisation et de gestion en temps réel. Que ce soit pour explorer de nouvelles destinations ou gérer des réservations existantes, l'application se positionne comme un compagnon de voyage complet et fiable, directement dans la poche de l'utilisateur.
 
 
 ## Description
@@ -21,10 +16,8 @@ Cette application mobile permet à un utilisateur de :
 
 L’application est développée pour offrir une expérience utilisateur fluide et intuitive, avec un design moderne adapté aux smartphones.
 
----
 
-
-## Instructions set-up
+## SetUp
 
 Pour configurer et lancer le projet, suivez ces commandes :
 
@@ -39,17 +32,7 @@ npx react-native run-android
 
 Vous pouvez aussi télécharger l'[apk](https://drive.google.com/drive/folders/1QvVJ4MgHdm3z_4V4KKUovWu5W_qAowkM?usp=drive_link), puis l'installer sur votre système android.
 
-Version ios pas encore disponible.
-
-Voir aussi :
-
-- [Guide d'utilisation](https://mega.nz/file/DEhFCTZZ#w_Q4cGKXBr5ysZv-1Zkkjct1CnOC3tBQki4LI6DEVQQ)
-
----
-
 
 ## Contact
 
-Pour toute question, contactez ngoupeyoubryan9@gmail.com.
-
----
+Pour toute question, contactez [ngoupeyoubryan9@gmail.com](mailto:ngoupeyoubryan9@gmail.com).
